@@ -34,9 +34,9 @@ $ instadp-of -u unicorn -n unicorn
 
 ## Related
 
-Image-OF [image-of](https://github.com/CodeDotJS/image-of)
+Image-of [ CLI TOOL ](https://github.com/CodeDotJS/image-of)
 
-Gravatar-OF [gravatar-of](https://github.com/CodeDotJS/gravatar-of)
+Gravatar-of [ CLI TOOL ](https://github.com/CodeDotJS/gravatar-of)
 
 ## License
 
