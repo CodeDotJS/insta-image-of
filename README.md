@@ -15,17 +15,17 @@ $ npm install --instadp-of
 ## Usage
 
 ```
-$ instadp-of -u unicorn -n unicorn
+$ instadp-of -u unicorn -n Unicorn
 
   Usage
 
-    $ insta-id-of -u 9gag -n 9gag
+    $ insta-id-of -u 9gag -n nineGag
 
          ❱ Status Code             :   ✔
 
          ❱ Directory Created       :   ✔
 
-         ❱ Image Saved In          :   Instagram ❱ 9gag.png
+         ❱ Image Saved In          :   Instagram ❱ nineGag.jpg
 
 
 ```
