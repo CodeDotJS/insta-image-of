@@ -51,7 +51,7 @@ const forSaved = removeSlash.replace('/', '');
 
 mkdirp(removeSlash, err => {
 	if (err) {
-		console.log(boxen('  Failed to create directory  ').warning);
+		console.log('  Failed to create directory  '.warning);
 	} else {
 		/* do something */
 	}
@@ -60,12 +60,15 @@ mkdirp(removeSlash, err => {
 const req = https.request(options, function(res) {
 	if (res.statusCode === 200) {
 		console.log('\nStatus Code: '.info, '😀'.info); // res.statusCode
+		mkdirp(removeSlash, err => {
+			console.log('Direcotry Created', ':', '>')
+		})
 	} else {
 		console.log('\nStatus Code: '.error, '😥'.info);
 		process.exit(1);
 	}
 
-	var store = '';
+	let store = '';
 	res.setEncoding('utf8');
 	res.on('data', function(d) {
 		store += d;
