@@ -6,6 +6,7 @@ const mkdirp = require('mkdirp');
 const fs = require('fs');
 const url = require('url');
 const https = require('follow-redirects').https;
+const http = require('follow-redirects').http;
 const boxen = require('boxen');
 const request = require('request');
 const colors = require('colors');
@@ -43,52 +44,80 @@ const options = {
 	}
 };
 
+// default
 const saveImage = './Instagram/';
 
+// saving images
 const removeSlash = saveImage.replace('./', '');
 
+// showing directory name
 const forSaved = removeSlash.replace('/', '');
 
+// creating directory
 mkdirp(removeSlash, err => {
+
 	if (err) {
+
 		console.log('  Failed to create directory  '.warning);
+
 	} else {
+
 		/* do something */
+
 	}
+
 });
 
+// request and directory
 const req = https.request(options, function(res) {
+
 	if (res.statusCode === 200) {
+
 		console.log('\nStatus Code: '.info, '😀'.info); // res.statusCode
+
 		mkdirp(removeSlash, err => {
+
 			console.log('Direcotry Created', ':', '>')
+
 		})
+
 	} else {
-		console.log('\nStatus Code: '.error, '😥'.info);
+
 		process.exit(1);
 	}
 
 	let store = '';
+
 	res.setEncoding('utf8');
+
 	res.on('data', function(d) {
+
 		store += d;
+
 	});
 
 	res.on('end', function() {
-		const rePattern = new RegExp(
-			/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+
+		const rePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+
 		const arrMatches = store.match(rePattern);
 
 		if (arrMatches && arrMatches[0]) {
-			console.log('\n| '.info + argv.u.replace('/', '').toUpperCase().toString()
-				.info + "'s Insta ID is ".info + arrMatches[0].replace(
-					'profile_pic_url":"', '').toString().normal + ' |\n'.info);
+
+			const nLink = arrMatches[0].replace( 'profile_pic_url":"', '');
 
 			const validLink = arrMatches.toString().replace('\\/s150x150\\', '');
+
+			console.log(validLink);
+			
 		} else {
-			console.log('\nSorry '.error + argv.u.replace('/', '').toUpperCase().toString()
-				.info + ' is not an Insta User.\n'.error);
+
+			console.log('\nSorry '.error + argv.u.replace('/', '').toUpperCase().toString().info + ' is not an Insta User.\n'.error);
+		
 		}
+	
 	});
+
 });
+
 req.end();
