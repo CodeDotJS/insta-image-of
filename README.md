@@ -1,4 +1,4 @@
-# instadp-of
+# instapic-of
 
 <h1 align="center">
 <img src="http://rishigiri.com/github/instagram.png"></img>

@@ -43,81 +43,47 @@ const options = {
 		'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6'
 	}
 };
-
 // default
 const saveImage = './Instagram/';
-
 // saving images
 const removeSlash = saveImage.replace('./', '');
-
 // showing directory name
 const forSaved = removeSlash.replace('/', '');
-
 // creating directory
 mkdirp(removeSlash, err => {
-
 	if (err) {
-
 		console.log('  Failed to create directory  '.warning);
-
 	} else {
-
 		/* do something */
-
 	}
-
 });
-
 // request and directory
 const req = https.request(options, function(res) {
-
 	if (res.statusCode === 200) {
-
 		console.log('\nStatus Code: '.info, '😀'.info); // res.statusCode
-
 		mkdirp(removeSlash, err => {
-
 			console.log('Direcotry Created', ':', '>')
-
 		})
-
 	} else {
-
 		process.exit(1);
 	}
-
 	let store = '';
-
 	res.setEncoding('utf8');
-
 	res.on('data', function(d) {
-
 		store += d;
-
 	});
-
 	res.on('end', function() {
-
-		const rePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
-
+		const rePattern = new RegExp(
+			/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
 		const arrMatches = store.match(rePattern);
-
 		if (arrMatches && arrMatches[0]) {
-
-			const nLink = arrMatches[0].replace( 'profile_pic_url":"', '');
-
+			const nLink = arrMatches[0].replace('profile_pic_url":"', '');
 			const validLink = arrMatches.toString().replace('\\/s150x150\\', '');
-
 			console.log(validLink);
-			
 		} else {
-
-			console.log('\nSorry '.error + argv.u.replace('/', '').toUpperCase().toString().info + ' is not an Insta User.\n'.error);
-		
+			console.log('\nSorry '.error + argv.u.replace('/', '').toUpperCase().toString()
+				.info + ' is not an Insta User.\n'.error);
 		}
-	
 	});
-
 });
-
 req.end();
