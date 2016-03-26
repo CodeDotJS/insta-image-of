@@ -3,12 +3,19 @@
 'use strict';
 
 const mkdirp = require('mkdirp');
+
 const fs = require('fs');
+
 const url = require('url');
+
 const https = require('follow-redirects').https;
+
 const http = require('follow-redirects').http;
+
 const boxen = require('boxen');
+
 const request = require('request');
+
 const colors = require('colors');
 
 colors.setTheme({
@@ -24,65 +31,110 @@ colors.setTheme({
 });
 
 const argv = require('yargs')
+
 	.usage('\nUsage : $0 -u [user-name] -n [image-name]'.info)
+
 	.demand(['u', 'n'])
+
 	.describe('u', '❱ '.info + 'username of instagram user.')
+
 	.describe('n', '❱ '.info + 'save image as.')
+
 	.argv;
 
 const options = {
+
 	hostname: 'www.instagram.com',
+
 	port: 443,
+
 	path: '/' + argv.u,
+
 	method: 'GET',
+
 	headers: {
+
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+
 		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36',
+
 		'Host': 'www.instagram.com',
+
 		'Connection': 'Keep-Alive',
+
 		'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6'
+
 	}
+
 };
-// default
+
 const saveImage = './Instagram/';
-// saving images
+
 const removeSlash = saveImage.replace('./', '');
-// showing directory name
+
 const forSaved = removeSlash.replace('/', '');
-// creating directory
+
 mkdirp(removeSlash, err => {
 	if (err) {
-		console.log('  Failed to create directory  '.warning);
+		console.log('Sorry! Couldn\'t create the desired directory');
+		process.exit();
 	} else {
-		/* do something */
+		console.log('Directory Created');
 	}
 });
-// request and directory
-const req = https.request(options, function(res) {
+
+const req = https.request(options, res => {
 	if (res.statusCode === 200) {
-		console.log('\nStatus Code: '.info, '😀'.info); // res.statusCode
+		console.log('Internet Connection  ❱  ', '✔');
 		mkdirp(removeSlash, err => {
-			console.log('Direcotry Created', ':', '>')
-		})
+			if (err) {
+				console.log('Sorry! Couldn\'t create the desired directory');
+			} else {
+				console.log('Directory Created');
+			}
+		});
 	} else {
+		console.log('Sorry! Please check username');
 		process.exit(1);
 	}
 	let store = '';
-	res.setEncoding('utf8');
-	res.on('data', function(d) {
+	res.setEncoding = 'utf8';
+	res.on('data', d => {
 		store += d;
 	});
-	res.on('end', function() {
-		const rePattern = new RegExp(
-			/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
-		const arrMatches = store.match(rePattern);
-		if (arrMatches && arrMatches[0]) {
-			const nLink = arrMatches[0].replace('profile_pic_url":"', '');
-			const validLink = arrMatches.toString().replace('\\/s150x150\\', '');
-			console.log(validLink);
+	res.on('end', () => {
+		const imagePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+		const regMatches = store.match(imagePattern);
+		if (regMatches && regMatches[0]) {
+			const imageLink = regMatches[0].replace('profile_pic_url":"', '');
+			console.log(imageLink);
+			const gotIndex = '150x150';
+			if (imageLink.indexOf(gotIndex) === 0) {
+				const fullImage = imageLink.toString().replace('\\/s150x150\\', '');
+				const getImage = fs.createWriteStream(saveImage + argv.n + '.jpg');
+				https.get(fullImage, res => {
+					res.pipe(getImage);
+					console.log('Image Saved In', forSaved);
+				}).on('error', err => {
+					console.error(err);
+					const failMessage = 'Sorry! Couldn\'t download the image';
+					console.log(failMessage);
+				});
+			} else {
+				const notFullImage = imageLink;
+				const getImage = fs.createWriteStream(saveImage + argv.n + '.jpg');
+				https.get(notFullImage, res => {
+					res.pipe(getImage);
+					console.log('Image Saved in', forSaved);
+				}).on('error', err => {
+					console.error(err);
+					const failMessage = 'Sorry! Couldn\'t dowload the image.';
+					console.log(failMessage);
+				});
+			}
 		} else {
-			console.log('\nSorry '.error + argv.u.replace('/', '').toUpperCase().toString()
-				.info + ' is not an Insta User.\n'.error);
+			const noImage = 'Sorry';
+			console.log(noImage);
 		}
 	});
 });
