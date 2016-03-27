@@ -64,7 +64,7 @@ const saveImage = './Instagram/';
 
 const removeSlash = saveImage.replace('./', '');
 
-const forSaved = removeSlash.replace('/', '');
+// const forSaved = removeSlash.replace('/', '');
 
 mkdirp(removeSlash, err => {
 	if (err) {
@@ -89,6 +89,20 @@ function detectFullSize(urls) {
 		return 'HD Image isn\'t available';
 	} else if (matchURL[0] === arrIndex[0]) {
 		return 'HD Image is available';
+	}
+}
+
+function parsedImages(imgLink) {
+	const findPattern = imgLink.match(/150/g);
+
+	const nullFire = null;
+
+	const gotPattern = ['150'];
+
+	if (nullFire === findPattern) {
+		return imgLink.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
+	} else if (findPattern[0] === gotPattern[0]) {
+		return imgLink.replace('/s150x150', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
 	}
 }
 
@@ -127,13 +141,11 @@ const req = https.request(options, res => {
 
 			const imageHD = detectFullSize(imageLink);
 
+			const remChars = parsedImages(imageLink);
+
 			console.log(imageHD);
 
-			const fullImage = imageLink.replace('\\/s150x150\\', '');
-
-			const parsedImage = fullImage.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
-
-			console.log(parsedImage);
+			console.log(remChars);
 		} else {
 			console.log('Sorry! Please check username');
 			process.exit(1);
