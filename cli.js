@@ -4,17 +4,9 @@
 
 const mkdirp = require('mkdirp');
 
-const fs = require('fs');
-
-const url = require('url');
-
 const https = require('follow-redirects').https;
 
-const http = require('follow-redirects').http;
-
 const boxen = require('boxen');
-
-const request = require('request');
 
 const colors = require('colors');
 
@@ -77,40 +69,74 @@ const forSaved = removeSlash.replace('/', '');
 mkdirp(removeSlash, err => {
 	if (err) {
 		console.log('Sorry! Couldn\'t create the desired directory');
+
 		process.exit();
 	} else {
-		/* described below */
+		/* no need */
 	}
 });
+
+function detectFullSize(urls) {
+	const matchURL = urls.match(/150/g);
+
+	const badCase = null;
+
+	const checkURL = matchURL;
+
+	const arrIndex = ['150'];
+
+	if (badCase === checkURL) {
+		return 'HD Image isn\'t available';
+	} else if (matchURL[0] === arrIndex[0]) {
+		return 'HD Image is available';
+	}
+}
 
 const req = https.request(options, res => {
 	if (res.statusCode === 200) {
 		console.log('Internet Connection  ❱  ', '✔');
+
 		mkdirp(removeSlash, err => {
 			if (err) {
-				console.log('Sorry! Couldn\'t create the desired directory');
+				console.log(boxen('Sorry! Couldn\'t create the desired directory'));
 			} else {
 				console.log('Directory Created');
 			}
 		});
 	} else {
 		console.log('Sorry! Please check username');
+
 		process.exit(1);
 	}
+
 	let store = '';
+
 	res.setEncoding = 'utf8';
+
 	res.on('data', d => {
 		store += d;
 	});
+
 	res.on('end', () => {
 		const imagePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+
 		const regMatches = store.match(imagePattern);
+
 		if (regMatches && regMatches[0]) {
 			const imageLink = regMatches[0].replace('profile_pic_url":"', '');
-			console.log(imageLink);
+
+			const imageHD = detectFullSize(imageLink);
+
+			console.log(imageHD);
+
+			const fullImage = imageLink.replace('\\/s150x150\\', '');
+
+			const parsedImage = fullImage.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
+
+			console.log(parsedImage);
 		} else {
-			const noImage = 'Sorry';
-			console.log(noImage);
+			console.log('Sorry! Please check username');
+			process.exit(1);
 		}
 	});
 });
