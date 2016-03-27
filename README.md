@@ -30,11 +30,20 @@ $ instapic -u unicorn -n Unicorn
 
 ```
 __NOTE__
+```
+It's not important to give argument for -n. So, when argument not given, the image will be saved as true.jpg
 
-> It's not important to give argument for -n. So, when argument not given, the image will be saved as true.jpg
+Example :
+		
+		$ instapic -u unicorn -n
 
-_EXAMPLE_ _:_ _$ instapic -u unicorn -n_
+		 ❱ Status Code             :   ✔
 
+         ❱ Directory Created       :   ✔
+
+         ❱ Image Saved In          :   Instagram ❱ true.jpg
+
+```
 ## Screenshot
 
 
