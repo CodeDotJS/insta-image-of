@@ -1,4 +1,4 @@
-# instadp-of
+# instapic-of
 
 <h1 align="center">
 <img src="http://rishigiri.com/github/instagram.png"></img>
@@ -9,13 +9,13 @@
 ## Install
 
 ```
-$ npm install --instadp-of
+$ npm install --instapic
 ```
 
 ## Usage
 
 ```
-$ instadp-of -u unicorn -n Unicorn
+$ instapic -u unicorn -n Unicorn
 
   Usage
 
@@ -29,6 +29,12 @@ $ instadp-of -u unicorn -n Unicorn
 
 
 ```
+__NOTE__
+
+> It's not important to give argument for -n. So, when argument not given, the image will be saved as true.jpg
+
+_EXAMPLE_ _:_ _$ instapic -u unicorn -n_
+
 ## Screenshot
 
 
