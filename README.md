@@ -31,9 +31,10 @@ $ instapic -u unicorn -n Unicorn
 ```
 __NOTE__
 ```
-It's not important to give argument for -n. So, when argument not given, the image will be saved as true.jpg
+It's not important to give an argument for -n. So, when the argument is not provided by the user, 
+the image get saved as true.jpg
 
-Example :
+	Example :
 		
 		$ instapic -u unicorn -n
 
