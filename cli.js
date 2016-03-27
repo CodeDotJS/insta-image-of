@@ -79,7 +79,7 @@ mkdirp(removeSlash, err => {
 		console.log('Sorry! Couldn\'t create the desired directory');
 		process.exit();
 	} else {
-		console.log('Directory Created');
+		/* described below */
 	}
 });
 
@@ -108,30 +108,6 @@ const req = https.request(options, res => {
 		if (regMatches && regMatches[0]) {
 			const imageLink = regMatches[0].replace('profile_pic_url":"', '');
 			console.log(imageLink);
-			const gotIndex = '150x150';
-			if (imageLink.indexOf(gotIndex) === 0) {
-				const fullImage = imageLink.toString().replace('\\/s150x150\\', '');
-				const getImage = fs.createWriteStream(saveImage + argv.n + '.jpg');
-				https.get(fullImage, res => {
-					res.pipe(getImage);
-					console.log('Image Saved In', forSaved);
-				}).on('error', err => {
-					console.error(err);
-					const failMessage = 'Sorry! Couldn\'t download the image';
-					console.log(failMessage);
-				});
-			} else {
-				const notFullImage = imageLink;
-				const getImage = fs.createWriteStream(saveImage + argv.n + '.jpg');
-				https.get(notFullImage, res => {
-					res.pipe(getImage);
-					console.log('Image Saved in', forSaved);
-				}).on('error', err => {
-					console.error(err);
-					const failMessage = 'Sorry! Couldn\'t dowload the image.';
-					console.log(failMessage);
-				});
-			}
 		} else {
 			const noImage = 'Sorry';
 			console.log(noImage);
