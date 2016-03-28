@@ -86,9 +86,9 @@ function detectFullSize(urls) {
 	const arrIndex = ['150'];
 
 	if (badCase === checkURL) {
-		return 'HD Image isn\'t available';
+		return ['HD'];
 	} else if (matchURL[0] === arrIndex[0]) {
-		return 'HD Image is available';
+		return ['notHD'];
 	}
 }
 
@@ -152,9 +152,17 @@ const req = https.request(options, res => {
 
 			const imageHD = detectFullSize(imageLink);
 
-			const remChars = parsedImages(imageLink);
+			const hdArray = ['HD'];
 
-			console.log(imageHD);
+			const notHDArray = ['notHD'];
+
+			if (hdArray[0] === imageHD[0]) {
+				console.log('Image is not in HD');
+			} else if (notHDArray[0] === imageHD[0]) {
+				console.log('Image is in HD');
+			}
+
+			const remChars = parsedImages(imageLink);
 
 			console.log(remChars);
 		}
