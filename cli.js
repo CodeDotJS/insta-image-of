@@ -110,13 +110,15 @@ const req = https.request(options, res => {
 	if (res.statusCode === 200) {
 		console.log('Internet Connection  ❱  ', '✔');
 
-		mkdirp(removeSlash, err => {
-			if (err) {
-				console.log(boxen('Sorry! Couldn\'t create the desired directory'));
-			} else {
-				console.log('Directory Created');
-			}
-		});
+		setTimeout(() => {
+			mkdirp(removeSlash, err => {
+				if (err) {
+					console.log(boxen('Sorry! Couldn\'t create the desired directory'));
+				} else {
+					console.log('Directory Created');
+				}
+			});
+		}, 2000);
 	} else {
 		console.log('Sorry! Please check username');
 
@@ -129,6 +131,15 @@ const req = https.request(options, res => {
 
 	res.on('data', d => {
 		store += d;
+	});
+
+	res.on('error', err => {
+		if (err.code === 'ENOTFOUND') {
+			console.error('Please check your internet connection');
+		} else {
+			console.error(err);
+		}
+		process.exit(1);
 	});
 
 	res.on('end', () => {
@@ -146,9 +157,6 @@ const req = https.request(options, res => {
 			console.log(imageHD);
 
 			console.log(remChars);
-		} else {
-			console.log('Sorry! Please check username');
-			process.exit(1);
 		}
 	});
 });
