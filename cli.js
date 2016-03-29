@@ -106,6 +106,16 @@ function parsedImages(imgLink) {
 	}
 }
 
+function checkInternet(cb) {
+    require('dns').lookup('google.com',function(err) {
+        if (err && err.code == "ENOTFOUND") {
+            cb(false);
+        } else {
+            cb(true);
+        }
+    })
+}
+
 const req = https.request(options, res => {
 	if (res.statusCode === 200) {
 		console.log('Internet Connection  ❱  ', '✔');
@@ -132,7 +142,6 @@ const req = https.request(options, res => {
 	res.on('data', d => {
 		store += d;
 	});
-
 	res.on('end', () => {
 		const imagePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
 
