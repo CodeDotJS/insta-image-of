@@ -107,18 +107,27 @@ function parsedImages(imgLink) {
 }
 
 function checkInternet(cb) {
-    require('dns').lookup('google.com',function(err) {
-        if (err && err.code == "ENOTFOUND") {
-            cb(false);
-        } else {
-            cb(true);
-        }
-    })
+	require('dns').lookup('instagram.com', err => {
+		if (err && err.code === 'ENOTFOUND') {
+			cb(false);
+		} else {
+			cb(true);
+		}
+	});
 }
+
+checkInternet(isConnected => {
+	if (isConnected) {
+		console.log('Connected');
+	} else {
+		console.log('Not Connected');
+		process.exit(1);
+	}
+});
 
 const req = https.request(options, res => {
 	if (res.statusCode === 200) {
-		console.log('Internet Connection  ❱  ', '✔');
+		console.log('Image Found');
 
 		setTimeout(() => {
 			mkdirp(removeSlash, err => {
