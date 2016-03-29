@@ -133,15 +133,6 @@ const req = https.request(options, res => {
 		store += d;
 	});
 
-	res.on('error', err => {
-		if (err.code === 'ENOTFOUND') {
-			console.error('Please check your internet connection');
-		} else {
-			console.error(err);
-		}
-		process.exit(1);
-	});
-
 	res.on('end', () => {
 		const imagePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
 
