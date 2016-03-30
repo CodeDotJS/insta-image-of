@@ -178,3 +178,12 @@ const req = https.request(options, res => {
 	});
 });
 req.end();
+
+// TEST 
+const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
+http.get(remChars, res => {
+	res.pipe(imageFile);
+	console.log('❱ Image Saved In  : '.directory + forSaved.toString().status + '❱' + localFold.toString().status + '.jpeg\n'.status);
+}).on('error', err => {
+	console.log(err);
+});
