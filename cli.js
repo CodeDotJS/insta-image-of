@@ -8,6 +8,8 @@ const https = require('follow-redirects').https;
 
 const boxen = require('boxen');
 
+const fs = require('fs');
+
 const colors = require('colors');
 
 colors.setTheme({
@@ -19,7 +21,7 @@ colors.setTheme({
 });
 
 colors.setTheme({
-	normal: ['green', 'bold']
+	normal: ['green', 'bolds']
 });
 
 const argv = require('yargs')
@@ -63,8 +65,6 @@ const options = {
 const saveImage = './Instagram/';
 
 const removeSlash = saveImage.replace('./', '');
-
-// const forSaved = removeSlash.replace('/', '');
 
 mkdirp(removeSlash, err => {
 	if (err) {
@@ -118,16 +118,16 @@ function checkInternet(cb) {
 
 checkInternet(isConnected => {
 	if (isConnected) {
-		console.log('Connected');
+		console.log('\n Internet Connection : ✔\n');
 	} else {
-		console.log('Not Connected');
+		console.log('\n Internet Connection : ✖\n');
 		process.exit(1);
 	}
 });
 
 const req = https.request(options, res => {
 	if (res.statusCode === 200) {
-		console.log('Image Found');
+		console.log('Valid Username : ✔');
 
 		setTimeout(() => {
 			mkdirp(removeSlash, err => {
@@ -137,10 +137,9 @@ const req = https.request(options, res => {
 					console.log('Directory Created');
 				}
 			});
-		}, 2000);
+		}, 1500);
 	} else {
-		console.log('Sorry! Please check username');
-
+		console.log(' Valid Username      : ✖');
 		process.exit(1);
 	}
 
@@ -174,16 +173,21 @@ const req = https.request(options, res => {
 			const remChars = parsedImages(imageLink);
 
 			console.log(remChars);
+
+			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpeg');
+
+			https.get(remChars, res => {
+				res.pipe(imageFile);
+
+				console.log('❱ Image Saved');
+			}).on('error', err => {
+				console.log(err);
+
+				console.log('❱ Failed to Save the image');
+
+				process.exit(1);
+			});
 		}
 	});
 });
 req.end();
-
-// TEST 
-const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
-http.get(remChars, res => {
-	res.pipe(imageFile);
-	console.log('❱ Image Saved In  : '.directory + forSaved.toString().status + '❱' + localFold.toString().status + '.jpeg\n'.status);
-}).on('error', err => {
-	console.log(err);
-});
