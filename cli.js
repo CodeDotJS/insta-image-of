@@ -137,6 +137,7 @@ const req = https.request(options, res => {
 		setTimeout(() => {
 			mkdirp(removeSlash, err => {
 				if (err) {
+					// optional
 					console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
 				} else {
 					/* do nothing */
@@ -144,6 +145,7 @@ const req = https.request(options, res => {
 			});
 		}, 1500);
 	} else {
+		// stopping the whole process if the username is invalid
 		console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
 		process.exit(1);
 	}
@@ -158,27 +160,38 @@ const req = https.request(options, res => {
 	res.on('end', () => {
 		const imagePattern = new RegExp(/profile_pic_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
 
+		// regex to match the parsed image patterns.
 		const regMatches = store.match(imagePattern);
 
+		// [0] because we need only one link
 		if (regMatches && regMatches[0]) {
 			const imageLink = regMatches[0].replace('profile_pic_url":"', '');
 
+			// storing func's output in a variable.
 			const imageHD = detectFullSize(imageLink);
 
+			// stroing initial HD'ed image in array
 			const hdArray = ['HD'];
 
+			// storing initial notHD'ed image in array
 			const notHDArray = ['notHD'];
 
 			if (hdArray[0] === imageHD[0]) {
+				// because initiall imageHD shows output in array ['150', '150'] and null
 				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✔\n'));
+
+				// if case is null
 			} else if (notHDArray[0] === imageHD[0]) {
 				console.log(colors.red.bold('\n ❱ Image Resolution      :    ✖\n'));
 			}
 
+			// using previously made function
 			const remChars = parsedImages(imageLink);
 
+			// saving image
 			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
 
+			// downloading image
 			https.get(remChars, res => {
 				res.pipe(imageFile);
 
