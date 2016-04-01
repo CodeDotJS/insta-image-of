@@ -10,29 +10,17 @@ const boxen = require('boxen');
 
 const fs = require('fs');
 
-const colors = require('colors');
-
-colors.setTheme({
-	error: ['red', 'bold']
-});
-
-colors.setTheme({
-	info: ['cyan', 'bold']
-});
-
-colors.setTheme({
-	normal: ['green', 'bolds']
-});
+const colors = require('colors/safe');
 
 const argv = require('yargs')
 
-	.usage('\nUsage : $0 -u [user-name] -n [image-name]'.info)
+	.usage(colors.cyan.bold('\nUsage : $0 -u [user-name] -n [image-name]'))
 
 	.demand(['u', 'n'])
 
-	.describe('u', '❱ '.info + 'username of instagram user.')
+	.describe('u', colors.cyan.bold('❱ ') + ' username of instagram user ')
 
-	.describe('n', '❱ '.info + 'save image as.')
+	.describe('n', colors.cyan.bold('❱ ') + ' save image as              ')
 
 	.argv;
 
@@ -66,11 +54,13 @@ const saveImage = './Instagram/';
 
 const removeSlash = saveImage.replace('./', '');
 
+const savedIn = removeSlash.replace('/', '');
+
 mkdirp(removeSlash, err => {
 	if (err) {
-		console.log('Sorry! Couldn\'t create the desired directory');
+		console.log(colors.red.bold('\n ❱Directory Created      :    ✖\n'));
 
-		process.exit();
+		process.exit(1);
 	} else {
 		/* no need */
 	}
@@ -103,14 +93,18 @@ function detectFullSize(urls) {
 function parsedImages(imgLink) {
 	const findPattern = imgLink.match(/150/g);
 
-	// null because 
+	// null because
 	const nullFire = null;
 
+	// finding the least resolution provided by instagram.
 	const gotPattern = ['150'];
 
+	// not all profile pictures are available on HD
 	if (nullFire === findPattern) {
+		// if pixel is missing
 		return imgLink.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
 	} else if (findPattern[0] === gotPattern[0]) {
+		// if pixel is available
 		return imgLink.replace('/s150x150', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
 	}
 }
@@ -125,30 +119,32 @@ function checkInternet(cb) {
 	});
 }
 
+// checking internet connection
 checkInternet(isConnected => {
 	if (isConnected) {
-		console.log('\n Internet Connection : ✔\n');
+		console.log(colors.cyan.bold('\n ❱ Internet Connection   :    ✔\n'));
 	} else {
-		console.log('\n Internet Connection : ✖\n');
+		// stop the whole process if the network is unreachable
+		console.log(colors.red.bold('\n ❱ Internet Connection   :    ✖\n'));
 		process.exit(1);
 	}
 });
 
 const req = https.request(options, res => {
 	if (res.statusCode === 200) {
-		console.log('Valid Username : ✔');
+		console.log(colors.cyan.bold(' ❱ Valid Username        :    ✔'));
 
 		setTimeout(() => {
 			mkdirp(removeSlash, err => {
 				if (err) {
-					console.log(boxen('Sorry! Couldn\'t create the desired directory'));
+					console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
 				} else {
-					console.log('Directory Created');
+					/* do nothing */
 				}
 			});
 		}, 1500);
 	} else {
-		console.log(' Valid Username      : ✖');
+		console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
 		process.exit(1);
 	}
 
@@ -174,21 +170,19 @@ const req = https.request(options, res => {
 			const notHDArray = ['notHD'];
 
 			if (hdArray[0] === imageHD[0]) {
-				console.log('Image is in HD');
+				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✔\n'));
 			} else if (notHDArray[0] === imageHD[0]) {
-				console.log('Image is not in HD');
+				console.log(colors.red.bold('\n ❱ Image Resolution      :    ✖\n'));
 			}
 
 			const remChars = parsedImages(imageLink);
 
-			console.log(remChars);
-
-			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpeg');
+			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
 
 			https.get(remChars, res => {
 				res.pipe(imageFile);
 
-				console.log('❱ Image Saved');
+				console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold(' ❱ '), colors.green.bold(argv.n + '.jpg\n'));
 			}).on('error', err => {
 				console.log(err);
 
