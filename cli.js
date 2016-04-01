@@ -195,7 +195,7 @@ const req = https.request(options, res => {
 			https.get(remChars, res => {
 				res.pipe(imageFile);
 
-				console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold(' ❱ '), colors.green.bold(argv.n + '.jpg\n'));
+				console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
 			}).on('error', err => {
 				console.log(err);
 
