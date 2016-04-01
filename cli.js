@@ -76,6 +76,7 @@ mkdirp(removeSlash, err => {
 	}
 });
 
+// for checking whether the remote image is available in high resolution or not.
 function detectFullSize(urls) {
 	// checking the small size image.
 	const matchURL = urls.match(/150/g);
@@ -90,17 +91,19 @@ function detectFullSize(urls) {
 
 	// checking if the pixles is available in the link
 	if (badCase === checkURL) {
-		return ['HD'];
+		return ['notHD'];
 
 		// because matchURL gives output in array
 	} else if (matchURL[0] === arrIndex[0]) {
-		return ['notHD'];
+		return ['HD'];
 	}
 }
 
+// parsing images based on the resolution obtained.
 function parsedImages(imgLink) {
 	const findPattern = imgLink.match(/150/g);
 
+	// null because 
 	const nullFire = null;
 
 	const gotPattern = ['150'];
@@ -171,9 +174,9 @@ const req = https.request(options, res => {
 			const notHDArray = ['notHD'];
 
 			if (hdArray[0] === imageHD[0]) {
-				console.log('Image is not in HD');
-			} else if (notHDArray[0] === imageHD[0]) {
 				console.log('Image is in HD');
+			} else if (notHDArray[0] === imageHD[0]) {
+				console.log('Image is not in HD');
 			}
 
 			const remChars = parsedImages(imageLink);
