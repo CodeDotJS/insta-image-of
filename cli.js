@@ -77,16 +77,22 @@ mkdirp(removeSlash, err => {
 });
 
 function detectFullSize(urls) {
+	// checking the small size image.
 	const matchURL = urls.match(/150/g);
 
+	// available pixels
 	const badCase = null;
 
 	const checkURL = matchURL;
 
+	// storing pixel in array
 	const arrIndex = ['150'];
 
+	// checking if the pixles is available in the link
 	if (badCase === checkURL) {
 		return ['HD'];
+
+		// because matchURL gives output in array
 	} else if (matchURL[0] === arrIndex[0]) {
 		return ['notHD'];
 	}
