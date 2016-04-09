@@ -16,7 +16,11 @@ const argv = require('yargs')
 
 	.usage(colors.cyan.bold('\nUsage : $0 <command> [options]           '))
 
-	.command('u', colors.cyan.bold(' ❱ ') + ' username of instagram user ')
+	.command('u', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For HD image')
+
+	.command('m', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For medium image')
+
+	.command('w', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For small image')
 
 	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image')
 
@@ -26,11 +30,15 @@ const argv = require('yargs')
 
 	.describe('n', colors.cyan.bold('❱') + '  save image or video as      ')
 
-    .example('$0 -u [user-name ] -n [image-name]')
+    .example('$0 -u [user-name] -n [image-name]')
 
-    .example('$0 -l [image-link] -n [image-name]')
-    
-    .example('$0 -v [video-link] -n [video-name]')
+    .example('$0 -m [user-name] -n [image-name]')
+
+    .example('$0 -w [user-name] -n [image-name]')
+
+    .example('$0 -l [imageLink] -n [image-name]')
+
+    .example('$0 -v [videoLink] -n [video-name]')
 
 	.argv;
 
