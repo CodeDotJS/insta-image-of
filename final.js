@@ -27,7 +27,9 @@ const argv = require('yargs')
 	.describe('n', colors.cyan.bold('❱') + '  save image or video as      ')
 
     .example('$0 -u [user-name ] -n [image-name]')
+
     .example('$0 -l [image-link] -n [image-name]')
+    
     .example('$0 -v [video-link] -n [video-name]')
 
 	.argv;
