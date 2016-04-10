@@ -9,7 +9,7 @@
   },
   "author": "Rishi Giri <rushforlinux@gmail.com> (rishigiri.com)",
   "bin": {
-    "instadp-of": "cli.js"
+    "instapic": "cli.js"
   },
   "engines": {
     "node": ">=4"
@@ -33,6 +33,7 @@
     "instagram",
     "profile-picture",
     "private-profile",
+    "HD",
     "full-resolution"
   ],
   "dependencies": {
@@ -54,8 +55,8 @@
     "esnext": true
   },
   "bugs": {
-    "url": "https://github.com/codedotjs/instadp-of/issues"
+    "url": "https://github.com/codedotjs/instapic-cli/issues"
   },
-  "homepage": "https://github.com/codedotjs/instadp-of#readme",
+  "homepage": "https://github.com/codedotjs/instapic-cli#readme",
   "main": "cli.js"
 }

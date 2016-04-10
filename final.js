@@ -366,11 +366,11 @@ if (argv.v) {
 				const remChars = redefineLink(imageLink);
 
 				// saving image
-				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
+				const videoFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
 
 				// downloading image
 				https.get(remChars, res => {
-					res.pipe(imageFile);
+					res.pipe(videoFile);
 
 					console.log(colors.cyan.bold('\n ❱ Video Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.mp4\n'));
 				}).on('error', err => {
