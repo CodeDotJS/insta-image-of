@@ -14,13 +14,13 @@ const colors = require('colors/safe');
 
 const argv = require('yargs')
 
-	.usage(colors.cyan.bold('\nUsage : $0 <command> [options]           '))
+	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]          '))
 
-	.command('u', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For HD image')
+	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For HD image')
 
-	.command('m', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For medium image')
+	.command('m', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For medium image')
 
-	.command('w', colors.cyan.bold(' ❱ ') + ' username of instagram user ' + ' ❱ For small image')
+	.command('w', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For small image')
 
 	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image')
 
@@ -31,10 +31,6 @@ const argv = require('yargs')
 	.describe('n', colors.cyan.bold('❱') + '  save image or video as      ')
 
     .example('$0 -u [user-name] -n [image-name]')
-
-    .example('$0 -m [user-name] -n [image-name]')
-
-    .example('$0 -w [user-name] -n [image-name]')
 
     .example('$0 -l [imageLink] -n [image-name]')
 
@@ -108,8 +104,8 @@ function detectFullSize(urls) {
 }
 
 // parsing images based on the resolution obtained.
-function parsedImages(imgLink) {
-	const findPattern = imgLink.match(/150/g);
+function redefineLink(contentLinks) {
+	const findPattern = contentLinks.match(/150/g);
 
 	// null because
 	const nullFire = null;
@@ -120,17 +116,16 @@ function parsedImages(imgLink) {
 	// not all profile pictures are available on HD
 	if (nullFire === findPattern) {
 		// if pixel is missing
-		return imgLink.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
+		return contentLinks.replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
 	} else if (findPattern[0] === gotPattern[0]) {
 		// if pixel is available
-		return imgLink.replace('/s150x150', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
+		return contentLinks.replace('/s150x150', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '').replace('\\', '');
 	}
 }
 
 // checking if the given argument is an URL or not
-function checkURL(imageURL) {
-
-	const canValid = imageURL.match(/instagram.com/g);
+function checkURL(baseURL) {
+	const canValid = baseURL.match(/instagram.com/g);
 
 	const rareCase = null;
 
@@ -224,7 +219,7 @@ if (argv.u) {
 				}
 
 				// using previously made function
-				const remChars = parsedImages(imageLink);
+				const remChars = redefineLink(imageLink);
 
 				// saving image
 				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
@@ -248,7 +243,6 @@ if (argv.u) {
 }
 
 if (argv.l) {
-
 	const getNodeImage = argv.l;
 
 	const verifyLink = checkURL(argv.l);
@@ -289,15 +283,15 @@ if (argv.l) {
 			storePublic += d;
 		});
 		res.on('end', () => {
-			const imagePattern = new RegExp(/display_src":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+			const imagePublicPattern = new RegExp(/display_src":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
 			// regex to match the parsed image patterns.
-			const regMatches = storePublic.match(imagePattern);
+			const regMatches = storePublic.match(imagePublicPattern);
 			// [0] because we need only one link
 			if (regMatches && regMatches[0]) {
 				const imageLink = regMatches[0].replace('display_src":"', '');
 
 				// using previously made function
-				const remChars = parsedImages(imageLink);
+				const remChars = redefineLink(imageLink);
 
 				// saving image
 				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
@@ -321,7 +315,6 @@ if (argv.l) {
 }
 
 if (argv.v) {
-
 	const getNodeVideo = argv.v;
 
 	const verifyVideoLink = checkURL(argv.v);
@@ -335,60 +328,60 @@ if (argv.v) {
 	}
 
 	const reqVideo = https.request(getNodeVideo, res => {
-	if (res.statusCode === 200) {
-		console.log(colors.cyan.bold(' ❱ Public Video          :    ✔'));
+		if (res.statusCode === 200) {
+			console.log(colors.cyan.bold(' ❱ Public Video          :    ✔'));
 
-		setTimeout(() => {
-			mkdirp(removeSlash, err => {
-				if (err) {
-					// optional
-					console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
-				} else {
-					/* do nothing */
-				}
-			});
-		}, 1500);
-	} else {
-		// stopping the whole process if the username is invalid
-		console.log(colors.red.bold(' ❱ Public Video          :    ✖ | Invalid Link\n'));
-		process.exit(1);
-	}
-
-	let store = '';
-
-	res.setEncoding = 'utf8';
-
-	res.on('data', d => {
-		store += d;
-	});
-	res.on('end', () => {
-		const imagePattern = new RegExp(/video_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
-		// regex to match the parsed image patterns.
-		const regMatches = store.match(imagePattern);
-		// [0] because we need only one link
-		if (regMatches && regMatches[0]) {
-			const imageLink = regMatches[0].replace('video_url":"', '');
-
-			// using previously made function
-			const remChars = parsedImages(imageLink);
-
-			// saving image
-			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
-
-			// downloading image
-			https.get(remChars, res => {
-				res.pipe(imageFile);
-
-				console.log(colors.cyan.bold('\n ❱ Video Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.mp4\n'));
-			}).on('error', err => {
-				console.log(err);
-
-				console.log('\n ❱ Failed to Save the video');
-
-				process.exit(1);
-			});
+			setTimeout(() => {
+				mkdirp(removeSlash, err => {
+					if (err) {
+						// optional
+						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+					} else {
+						/* do nothing */
+					}
+				});
+			}, 1500);
+		} else {
+			// stopping the whole process if the username is invalid
+			console.log(colors.red.bold(' ❱ Public Video          :    ✖ | Invalid Link\n'));
+			process.exit(1);
 		}
+
+		let storeVideo = '';
+
+		res.setEncoding = 'utf8';
+
+		res.on('data', d => {
+			storeVideo += d;
+		});
+		res.on('end', () => {
+			const videoPattern = new RegExp(/video_url":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+			// regex to match the parsed image patterns.
+			const regMatches = storeVideo.match(videoPattern);
+			// [0] because we need only one link
+			if (regMatches && regMatches[0]) {
+				const imageLink = regMatches[0].replace('video_url":"', '');
+
+				// using previously made function
+				const remChars = redefineLink(imageLink);
+
+				// saving image
+				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
+
+				// downloading image
+				https.get(remChars, res => {
+					res.pipe(imageFile);
+
+					console.log(colors.cyan.bold('\n ❱ Video Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.mp4\n'));
+				}).on('error', err => {
+					console.log(err);
+
+					console.log('\n ❱ Failed to Save the video');
+
+					process.exit(1);
+				});
+			}
+		});
 	});
-});
-reqVideo.end();
+	reqVideo.end();
 }
