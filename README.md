@@ -1,6 +1,5 @@
 <h1 align="center">
-  <br>
-  <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="200"></a>
+  <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="300"></a>
   <br>
 </h1>
 
