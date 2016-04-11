@@ -299,17 +299,17 @@ if (argv.m) {
 				mkdirp(removeSlash, err => {
 					if (err) {
 					// optional
-					console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
-				} else {
+						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+					} else {
 					/* do nothing */
-				}
-			});
+					}
+				});
 			}, 1500);
 		} else {
-		// stopping the whole process if the username is invalid
-		console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
-		process.exit(1);
-	}
+			// stopping the whole process if the username is invalid
+			console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
+			process.exit(1);
+		}
 
 	let store = '';
 
