@@ -3,50 +3,91 @@
 'use strict';
 
 const mkdirp = require('mkdirp');
+
 const https = require('follow-redirects').https;
+
 const boxen = require('boxen');
+
 const fs = require('fs');
+
 const colors = require('colors/safe');
+
 const argv = require('yargs')
+
 	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]           '))
+
 	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username ➨➤ High Resolution   ')
+
 	.command('m', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Medium Resolution ')
+
 	.command('w', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Low Resolution    ')
-	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image            ')
-	.command('v', colors.cyan.bold(' ❱ ') + ' full link to download video            ')
+
+	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image             ')
+
+	.command('v', colors.cyan.bold(' ❱ ') + ' full link to download video             ')
+
 	.demand(['n'])
-	.describe('n', colors.cyan.bold('❱') + '  save image or video as      ')
+
+	.describe('n', colors.cyan.bold('❱') + '  save image or video as                  ')
+
     .example('$0 -u [user-name] -n [image-name]')
+
     .example('$0 -l [imageLink] -n [image-name]')
+
     .example('$0 -v [videoLink] -n [video-name]')
+
 	.argv;
 
 const options = {
+
 	hostname: 'www.instagram.com',
+
 	port: 443,
+
 	path: '/' + argv.u,
+
 	method: 'GET',
+
 	headers: {
+
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+
 		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36',
+
 		'Host': 'www.instagram.com',
+
 		'Connection': 'Keep-Alive',
+
 		'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6'
+
 	}
+
 };
 
 const optionsMedium = {
+
 	hostname: 'www.instagram.com',
+
 	port: 443,
+
 	path: '/' + argv.m,
+
 	method: 'GET',
+
 	headers: {
+
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+
 		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36',
+
 		'Host': 'www.instagram.com',
+
 		'Connection': 'Keep-Alive',
+
 		'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6'
+
 	}
+
 };
 
 const optionsSmall = {
