@@ -3,7 +3,7 @@
   <br>
 </h1>
 
-<h5 align="center">A small tool to download profile pictures, public images and videos available on instagram directly from command line.</h5>
+<h6 align="center">A small tool to download profile pictures, public images and videos available on instagram directly from command line.</h6>
 
 
 ## Install
