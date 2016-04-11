@@ -14,17 +14,17 @@ const colors = require('colors/safe');
 
 const argv = require('yargs')
 
-	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]          '))
+	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]           '))
 
-	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For HD image')
+	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username ➨➤ High Resolution   ')
 
-	.command('m', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For medium image')
+	.command('m', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Medium Resolution ')
 
-	.command('w', colors.cyan.bold(' ❱ ') + ' instagram username  ❱❱  For small image')
+	.command('w', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Low Resolution    ')
 
-	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image')
+	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image            ')
 
-	.command('v', colors.cyan.bold(' ❱ ') + ' full link to download video')
+	.command('v', colors.cyan.bold(' ❱ ') + ' full link to download video            ')
 
 	.demand(['n'])
 
@@ -45,6 +45,32 @@ const options = {
 	port: 443,
 
 	path: '/' + argv.u,
+
+	method: 'GET',
+
+	headers: {
+
+		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+
+		'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36',
+
+		'Host': 'www.instagram.com',
+
+		'Connection': 'Keep-Alive',
+
+		'Accept-Language': 'en-GB,en-US;q=0.8,en;q=0.6'
+
+	}
+
+};
+
+const optionsMedium = {
+
+	hostname: 'www.instagram.com',
+
+	port: 443,
+
+	path: '/' + argv.m,
 
 	method: 'GET',
 
@@ -103,6 +129,28 @@ function detectFullSize(urls) {
 	}
 }
 
+// for checking whether the remote image is available in high resolution or not.
+function detectMediumSize(urls) {
+	// checking the small size image.
+	const mediumURL = urls.match(/320/g);
+
+	// available pixels
+	const caseMedium = null;
+
+	const checkURL = mediumURL;
+
+	// storing pixel in array
+	const arrIndex = ['320'];
+
+	// checking if the pixles is available in the link
+	if (caseMedium === checkURL) {
+		return ['notHD'];
+
+		// because mediumURL gives output in array
+	} else if (mediumURL[0] === arrIndex[0]) {
+		return ['HD'];
+	}
+}
 // parsing images based on the resolution obtained.
 function redefineLink(contentLinks) {
 	const findPattern = contentLinks.match(/150/g);
@@ -242,6 +290,90 @@ if (argv.u) {
 	req.end();
 }
 
+if (argv.m) {
+	const reqMedium = https.request(optionsMedium, res => {
+		if (res.statusCode === 200) {
+			console.log(colors.cyan.bold(' ❱ Valid Username        :    ✔'));
+
+			setTimeout(() => {
+				mkdirp(removeSlash, err => {
+					if (err) {
+					// optional
+					console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+				} else {
+					/* do nothing */
+				}
+			});
+			}, 1500);
+		} else {
+		// stopping the whole process if the username is invalid
+		console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
+		process.exit(1);
+	}
+
+	let store = '';
+
+	res.setEncoding = 'utf8';
+
+	res.on('data', d => {
+		store += d;
+	});
+	res.on('end', () => {
+		const imagePattern = new RegExp(/profile_pic_url_hd":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+
+		// regex to match the parsed image patterns.
+		const regMatches = store.match(imagePattern);
+
+		// [0] because we need only one link
+		if (regMatches && regMatches[0]) {
+			const imageLink = regMatches[0].replace('profile_pic_url_hd":"', '');
+
+			// storing func's output in a variable.
+			const imageHD = detectMediumSize(imageLink);
+
+			// stroing initial HD'ed image in array
+			const hdArray = ['HD'];
+
+			// storing initial notHD'ed image in array
+			const notHDArray = ['notHD'];
+
+			if (hdArray[0] === imageHD[0]) {
+				// because initiall imageHD shows output in array ['150', '150'] and null
+				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✔\n'));
+
+				// if case is null
+			} else if (notHDArray[0] === imageHD[0]) {
+				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✖\n'));
+			}
+
+			// using previously made function
+			const remChars = redefineLink(imageLink);
+
+			// saving image
+			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
+
+			// downloading image
+			https.get(remChars, res => {
+				res.pipe(imageFile);
+
+				console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+			}).on('error', err => {
+				console.log(err);
+
+				console.log('❱ Failed to Save the image');
+
+				process.exit(1);
+			});
+		} else {
+			console.log(colors.red.bold('\n ❱ Resolution Available  :    ✖\n'));
+
+			process.exit(1);
+		}
+	});
+});
+reqMedium.end();
+}
+
 if (argv.l) {
 	const getNodeImage = argv.l;
 
@@ -254,6 +386,7 @@ if (argv.l) {
 
 		process.exit(1);
 	}
+
 	const reqImages = https.request(getNodeImage, res => {
 		if (res.statusCode === 200) {
 			console.log(colors.cyan.bold(' ❱ Public Image          :    ✔\n'));
@@ -365,10 +498,10 @@ if (argv.v) {
 				// using previously made function
 				const remChars = redefineLink(imageLink);
 
-				// saving image
+				// saving video
 				const videoFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
 
-				// downloading image
+				// downloading video
 				https.get(remChars, res => {
 					res.pipe(videoFile);
 
