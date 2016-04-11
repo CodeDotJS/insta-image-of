@@ -45,7 +45,7 @@ Copy and paste the following command to check it's functionality.
 
 ### Profile picture of a user in full resolution
 
-> Public Account
+__PUBLIC ACCOUNT__
 
 ```
 instavim -u iam_rishig -n rishi
@@ -82,4 +82,4 @@ Gravatar-of [ CLI TOOL ](https://github.com/CodeDotJS/gravatar-of)
 
 ## License
 
-MIT © [Rishi Giri](http://rishigiri.com)
+MIT | Copyright &copy; [Rishi Giri](http://rishigiri.com)
