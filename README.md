@@ -56,16 +56,34 @@ instavim -u iam_rishig -n rishi
 ```
 instavim -u anshumali -n instaUser
 
+```
+
+### Pofile picture of a user in medium resolution
+
+❱ __PUBLIC ACCOUNT__
 
 ```
-### Pofile picture of a user in medium resolution
+instavim -m iam_rishig -n rishiMed
 ```
-isntavim -m iam_rishig -n rishiMed
+❱ __PRIVATAE ACCOUNT__
+
+```
+instavim -m anshumali -n anshuMed
+
 ```
 
 ### Profile picture of a user in low resolution
+
+❱ __PUBLIC ACCOUNT__
+
 ```
 instavim -w iam_rishig -n rishiSM
+```
+❱ __PRIVATAE ACCOUNT__
+
+```
+instavim -w anshumali -n anshuSM
+
 ```
 
 ### Public Image uploaded by an instagram user
