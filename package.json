@@ -1,15 +1,15 @@
 {
-  "name": "instadp-of",
+  "name": "instavim",
   "version": "1.0.0",
-  "description": "Download profile picture of any instagram user through their instagram username.",
+  "description": "Download profile pictures, public pictures and videos available on instagram through command line.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codedotjs/instadp-of.git"
+    "url": "git+https://github.com/codedotjs/instavim.git"
   },
   "author": "Rishi Giri <rushforlinux@gmail.com> (rishigiri.com)",
   "bin": {
-    "instapic": "cli.js"
+    "instavim": "cli.js"
   },
   "engines": {
     "node": ">=4"
@@ -33,11 +33,20 @@
     "instagram",
     "profile-picture",
     "private-profile",
+    "public",
+    "public-pictures",
+    "public-videos",
+    "videos",
+    "instapic",
+    "instajam",
+    "instadl",
+    "instadp",
     "HD",
     "full-resolution"
   ],
   "dependencies": {
     "fs": "*",
+    "https": "*",
     "url": "*",
     "follow-redirects": "*",
     "colors": "*",
@@ -55,8 +64,8 @@
     "esnext": true
   },
   "bugs": {
-    "url": "https://github.com/codedotjs/instapic-cli/issues"
+    "url": "https://github.com/codedotjs/instavim/issues"
   },
-  "homepage": "https://github.com/codedotjs/instapic-cli#readme",
+  "homepage": "https://github.com/codedotjs/instavim#readme",
   "main": "cli.js"
 }
