@@ -45,12 +45,12 @@ Copy and paste the following command to check it's functionality.
 
 ### Profile picture of a user in full resolution
 
-__PUBLIC ACCOUNT__
+❱ __PUBLIC ACCOUNT__
 
 ```
 instavim -u iam_rishig -n rishi
 ```
-__PRIVATAE ACCOUNT__
+❱ __PRIVATAE ACCOUNT__
 
 ```
 instavim -u anshumali -n instaUser
