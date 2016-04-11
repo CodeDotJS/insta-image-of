@@ -1,5 +1,7 @@
 <h1 align="center">
-<img src="http://rishigiri.com/github/instavim.png"></img>
+  <br>
+  <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="200"></a>
+  <br>
 </h1>
 
 > A small tool to download profile pictures, public images and videos available on instagram directly from command line.
