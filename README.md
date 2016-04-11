@@ -45,6 +45,7 @@ Copy and paste the following command to check it's functionality.
 
 ### Profile picture of a user in full resolution
 
+
 ❱ __PUBLIC ACCOUNT__
 
 ```
@@ -54,6 +55,8 @@ instavim -u iam_rishig -n rishi
 
 ```
 instavim -u anshumali -n instaUser
+
+
 ```
 ### Pofile picture of a user in medium resolution
 ```
