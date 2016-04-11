@@ -300,7 +300,7 @@ if (argv.m) {
 					if (err) {
 						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
 					} else {
-
+						// do nothing
 					}
 				});
 			}, 1500);
