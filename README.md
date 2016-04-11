@@ -11,6 +11,10 @@
 ```
 $ npm install --global instavim
 ```
+__OR__
+```
+$ sudo npm install --global instavim
+```
 
 ## Usage
 
@@ -83,14 +87,27 @@ instavim -w iam_rishig -n rishiSM
 instavim -w anshumali -n anshuSM
 ```
 
-### Public Image uploaded by an instagram user
+### Images which are uploaded publically
 ```
 instavim -l https://www.instagram.com/p/BC2pgFRoUO4/ -n sindresorhus
 ```
 
-### Public Video uploaded by an instagram user
+### Vidoes which are uploaded publically
 ```
-instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n buttshit
+instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n bustinbeiber
+```
+
+## Exceptions
+
+```
+1 ❱ On instagram, not every profile picture is available in High Resolution.
+```
+```
+2 ❱ You may not be able to download the profile pictures of some users in medium and small resolution.
+Reason is point 1.
+```
+```
+3 ❱ This tool do not download images which are uploaded by users whose profiles are private.
 ```
 
 ## Screenshot
