@@ -44,6 +44,9 @@ Copy and paste the following command to check it's functionality.
 ```
 
 ### Profile picture of a user in full resolution
+
+> Public Account
+
 ```
 instavim -u iam_rishig -n rishi
 ```
