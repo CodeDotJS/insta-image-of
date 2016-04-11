@@ -1,58 +1,51 @@
-# instapic-of
+# INSTAVIM
 
 <h1 align="center">
 <img src="http://rishigiri.com/github/instagram.png"></img>
 </h1>
 
-> A command line tool to download profile picture of any instagram user in full resolution.
+> A small tool to download profile pictures, public images and videos available on instagram directly from command line.
 
 ## Install
 
 ```
-$ npm install --instapic
+$ npm install --instavim
 ```
 
 ## Usage
 
 ```
-$ instapic -u unicorn -n Unicorn
+    Usage : cli.js <command> [info] <option> [info]           
 
-  Usage
+    Commands:
 
-    $ insta-id-of -u 9gag -n nineGag
+          u   ❱  instagram username ➨➤ High Resolution
+          m   ❱  insatgram username ➨➤ Medium Resolution
+          w   ❱  insatgram username ➨➤ Low Resolution
+          l   ❱  full link to download image
+          v   ❱  full link to download video
 
-         ❱ Status Code             :   ✔
+    Options:
 
-         ❱ Directory Created       :   ✔
+          -n  ❱  save image or video as                    [required]
 
-         ❱ Image Saved In          :   Instagram ❱ nineGag.jpg
+    Examples:
 
-         -- MORE --
+         instavim -u [user-name] -n [image-name]
+         instavim -l [imageLink] -n [image-name]
+         instavim -v [videoLink] -n [video-name]
 
-
-```
-__NOTE__
-```
-It's not important to give an argument for -n. So, when the argument is not provided by the user, 
-the image get saved as true.jpg
-
-	Example :
-		
-		$ instapic -u unicorn -n
-
-		 ❱ Status Code             :   ✔
-
-         ❱ Directory Created       :   ✔
-
-         ❱ Image Saved In          :   Instagram ❱ true.jpg
+    Missing required argument: n
 
 ```
+
+
 ## Screenshot
 
 
 ## Related
 
-Image-of [ CLI TOOL ](https://github.com/CodeDotJS/image-of)
+Image-of    [ CLI TOOL ](https://github.com/CodeDotJS/image-of)
 
 Gravatar-of [ CLI TOOL ](https://github.com/CodeDotJS/gravatar-of)
 
