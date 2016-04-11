@@ -53,7 +53,7 @@ instavim -u iam_rishig -n rishi
 __PRIVATAE ACCOUNT__
 
 ```
-instavim -u isma_shahid -n instaUser
+instavim -u anshumali -n instaUser
 ```
 ### Pofile picture of a user in medium resolution
 ```
