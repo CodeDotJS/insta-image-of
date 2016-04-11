@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="300"></a>
+  <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="400"></a>
   <br>
 </h1>
 
@@ -8,7 +8,7 @@
 ## Install
 
 ```
-$ npm install --instavim
+$ npm install --global instavim
 ```
 
 ## Usage
