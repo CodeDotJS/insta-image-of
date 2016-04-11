@@ -39,29 +39,34 @@ $ npm install --instavim
 
 ```
 ## Examples
-
-> Copy and paste the following command to check it's functionality.
+```
+Copy and paste the following command to check it's functionality.
+```
 
 ### Profile picture of a user in full resolution
-
-> instavim -u iam_rishig -n rishi
+```
+instavim -u iam_rishig -n rishi
+```
 
 ### Pofile picture of a user in medium resolution
-
-> isntavim -m iam_rishig -n rishiMed
+```
+isntavim -m iam_rishig -n rishiMed
+```
 
 ### Profile picture of a user in low resolution
-
-> instavim -w iam_rishig -n rishiSM
+```
+instavim -w iam_rishig -n rishiSM
+```
 
 ### Public Image uploaded by an instagram user
-
-> instavim -l https://www.instagram.com/p/BC2pgFRoUO4/ -n sindresorhus
+```
+instavim -l https://www.instagram.com/p/BC2pgFRoUO4/ -n sindresorhus
+```
 
 ### Public Video uploaded by an instagram user
-
-> instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n buttshit
-
+```
+instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n buttshit
+```
 
 ## Screenshot
 
