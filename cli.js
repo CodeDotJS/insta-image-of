@@ -298,80 +298,55 @@ if (argv.m) {
 			setTimeout(() => {
 				mkdirp(removeSlash, err => {
 					if (err) {
-					// optional
 						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
 					} else {
-					/* do nothing */
+
 					}
 				});
 			}, 1500);
 		} else {
-			// stopping the whole process if the username is invalid
 			console.log(colors.red.bold(' ❱ Valid Username        :    ✖\n'));
 			process.exit(1);
 		}
 
-	let store = '';
+		let store = '';
+		res.setEncoding = 'utf8';
+		res.on('data', d => {
+			store += d;
+		});
 
-	res.setEncoding = 'utf8';
+		res.on('end', () => {
+			const imagePattern = new RegExp(/profile_pic_url_hd":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+			const regMatches = store.match(imagePattern);
+			if (regMatches && regMatches[0]) {
+				const imageLink = regMatches[0].replace('profile_pic_url_hd":"', '');
+				const imageHD = detectMediumSize(imageLink);
+				const hdArray = ['HD'];
+				const notHDArray = ['notHD'];
 
-	res.on('data', d => {
-		store += d;
-	});
-	res.on('end', () => {
-		const imagePattern = new RegExp(/profile_pic_url_hd":"[a-zA-Z://\\-a-zA-Z.0-9\\-a-zA-Z.0-9]*/);
+				if (hdArray[0] === imageHD[0]) {
+					console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✔\n'));
+				} else if (notHDArray[0] === imageHD[0]) {
+					console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✖\n'));
+				}
+				const remChars = redefineLink(imageLink);
+				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
 
-		// regex to match the parsed image patterns.
-		const regMatches = store.match(imagePattern);
-
-		// [0] because we need only one link
-		if (regMatches && regMatches[0]) {
-			const imageLink = regMatches[0].replace('profile_pic_url_hd":"', '');
-
-			// storing func's output in a variable.
-			const imageHD = detectMediumSize(imageLink);
-
-			// stroing initial HD'ed image in array
-			const hdArray = ['HD'];
-
-			// storing initial notHD'ed image in array
-			const notHDArray = ['notHD'];
-
-			if (hdArray[0] === imageHD[0]) {
-				// because initiall imageHD shows output in array ['150', '150'] and null
-				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✔\n'));
-
-				// if case is null
-			} else if (notHDArray[0] === imageHD[0]) {
-				console.log(colors.cyan.bold('\n ❱ Image Resolution      :    ✖\n'));
-			}
-
-			// using previously made function
-			const remChars = redefineLink(imageLink);
-
-			// saving image
-			const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
-
-			// downloading image
-			https.get(remChars, res => {
-				res.pipe(imageFile);
-
-				console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
-			}).on('error', err => {
-				console.log(err);
-
-				console.log('❱ Failed to Save the image');
-
+				https.get(remChars, res => {
+					res.pipe(imageFile);
+					console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+				}).on('error', err => {
+					console.log(err);
+					console.log('❱ Failed to Save the image');
+					process.exit(1);
+				});
+			} else {
+				console.log(colors.red.bold('\n ❱ Resolution Available  :    ✖\n'));
 				process.exit(1);
-			});
-		} else {
-			console.log(colors.red.bold('\n ❱ Resolution Available  :    ✖\n'));
-
-			process.exit(1);
-		}
+			}
+		});
 	});
-});
-reqMedium.end();
+	reqMedium.end();
 }
 
 if (argv.l) {
