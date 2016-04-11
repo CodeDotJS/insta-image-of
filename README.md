@@ -1,7 +1,5 @@
-# INSTAVIM
-
 <h1 align="center">
-<img src="http://rishigiri.com/github/instagram.png"></img>
+<img src="http://rishigiri.com/github/instavim.png"></img>
 </h1>
 
 > A small tool to download profile pictures, public images and videos available on instagram directly from command line.
@@ -50,7 +48,11 @@ __PUBLIC ACCOUNT__
 ```
 instavim -u iam_rishig -n rishi
 ```
+__PRIVATAE ACCOUNT__
 
+```
+instavim -u isma_shahid -n instaUser
+```
 ### Pofile picture of a user in medium resolution
 ```
 isntavim -m iam_rishig -n rishiMed
