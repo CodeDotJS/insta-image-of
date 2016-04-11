@@ -8,7 +8,6 @@ const boxen = require('boxen');
 const fs = require('fs');
 const colors = require('colors/safe');
 const argv = require('yargs')
-
 	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]           '))
 	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username ➨➤ High Resolution   ')
 	.command('m', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Medium Resolution ')
@@ -71,7 +70,6 @@ const savedIn = removeSlash.replace('/', '');
 mkdirp(removeSlash, err => {
 	if (err) {
 		console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
-
 		process.exit(1);
 	} else {
 		/* no need */
