@@ -11,7 +11,7 @@
 ```
 $ npm install --global instavim
 ```
-__OR__
+__OR BETTER__
 ```
 $ sudo npm install --global instavim
 ```
@@ -44,8 +44,9 @@ $ sudo npm install --global instavim
 ```
 ## Examples
 ```
-Copy and paste the following command to check it's functionality.
+Copy and paste the following command in your terminal to check it's functionality.
 ```
+__NOTE__ : Use  CTRL + SHIFT + V [ :]
 
 ### Profile picture of a user in full resolution
 
@@ -110,6 +111,20 @@ Reason is point 1.
 3 ❱ This tool do not download images which are uploaded by users whose profiles are private.
 ```
 
+## Note
+
+```
+1 ❱ Use "https://www.instagram.com/" when you are pasting the link in terminal
+```
+```
+2 ❱ Do not give image or video extension when you are downloading them.
+  
+    Wrong : instavim -u unicorn -n unicornImage.jpg
+
+    Right : instavim -u unicorn -n unicornImage
+
+Same goes for other images and videos.
+```
 ## Screenshot
 
 
