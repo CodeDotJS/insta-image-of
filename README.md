@@ -136,4 +136,4 @@ Gravatar-of [ CLI TOOL ](https://github.com/CodeDotJS/gravatar-of)
 
 ## License
 
-❱ MIT - Copyright &copy; [Rishi Giri](http://rishigiri.com)
+MIT - Copyright &copy; [Rishi Giri](http://rishigiri.com)
