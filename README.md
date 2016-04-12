@@ -100,19 +100,17 @@ instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n bustinbeiber
 ## Exceptions
 
 
-> On instagram, not every profile picture is available in High Resolution.
-
 ```
-```
-
-> You may not be able to download the profile pictures of some users in medium and small resolution.
-  Reason is point 1.
-
-```
+On instagram, not every profile picture is available in High Resolution.
 ```
 
-> This tool do not download images which are uploaded by users whose profiles are private.
+```
+Small and Medium resolution images may not be available sometime.
+```
 
+```
+This tool do not download images with privacy === true.
+```
 
 ## Note
 
