@@ -43,9 +43,9 @@ $ sudo npm install --global instavim
 
 ```
 ## Examples
-```
-Copy and paste the following command in your terminal to check it's functionality.
-```
+
+> Copy and paste the following command in your terminal to check it's functionality.
+
 
 ### Profile picture of a user in full resolution
 
@@ -99,21 +99,19 @@ instavim -v https://www.instagram.com/p/BD661xeA_V1/ -n bustinbeiber
 
 ## Exceptions
 
-```
-1 ❱ On instagram, not every profile picture is available in High Resolution.
-```
-```
-2 ❱ You may not be able to download the profile pictures of some users in medium and small resolution.
-Reason is point 1.
-```
-```
-3 ❱ This tool do not download images which are uploaded by users whose profiles are private.
-```
+
+> On instagram, not every profile picture is available in High Resolution.
+
+> You may not be able to download the profile pictures of some users in medium and small resolution.
+  Reason is point 1.
+
+> This tool do not download images which are uploaded by users whose profiles are private.
+
 
 ## Note
 
 ```
-1 ❱ Use "https://www.instagram.com/" when you are pasting the link in terminal
+1 ❱ Use "https://www" when you are pasting the link in terminal
 ```
 ```
 2 ❱ Do not give image or video extension when you are downloading them.
@@ -126,6 +124,9 @@ Same goes for other images and videos.
 ```
 ## Screenshot
 
+<h1 align="center">
+  <img src="http://rishigiri.com/github/instashot.png" alt="Instavim" width=""></a>
+</h1>
 
 ## Related
 
