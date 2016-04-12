@@ -1,6 +1,6 @@
 {
   "name": "instavim",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Download profile pictures, public pictures and videos available on instagram through command line.",
   "license": "MIT",
   "repository": {
