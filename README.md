@@ -46,7 +46,6 @@ $ sudo npm install --global instavim
 ```
 Copy and paste the following command in your terminal to check it's functionality.
 ```
-__NOTE__ : Use  CTRL + SHIFT + V [ :]
 
 ### Profile picture of a user in full resolution
 
