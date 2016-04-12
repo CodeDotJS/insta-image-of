@@ -19,7 +19,7 @@ $ sudo npm install --global instavim
 ## Usage
 
 ```
-    Usage : cli.js <command> [info] <option> [info]           
+    Usage : instavim <command> [info] <option> [info]           
 
     Commands:
 
