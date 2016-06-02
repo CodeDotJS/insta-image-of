@@ -51,7 +51,6 @@
     "follow-redirects": "*",
     "colors": "*",
     "mkdirp": "*",
-    "boxen": "*",
     "update-notifier": "*",
     "request": "*",
     "yargs": "*"
