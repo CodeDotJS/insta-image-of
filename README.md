@@ -1,6 +1,7 @@
 <h1 align="center">
   <a href="https://www.npmjs.com/package/instavim"><img src="http://rishigiri.com/github/instavim.png" alt="Instavim" width="400"></a>
   <br>
+  <img src="https://travis-ci.org/CodeDotJS/instavim.svg?branch=master">
 </h1>
 
 <p align="center"><b>Download profile pictures, public images and videos available on instagram directly from command line.</b></p>
@@ -129,7 +130,7 @@ Same goes for other images and videos.
 ## Screenshot
 
 <h1 align="center">
-  <img src="http://rishigiri.com/github/instashot.png" alt="Instavim" width=""></a>
+  <a href=''><img src="http://rishigiri.com/github/instashot.png" alt="Instavim" width="600"></a>
 </h1>
 
 ## Related
