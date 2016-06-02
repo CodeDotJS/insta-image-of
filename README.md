@@ -130,14 +130,18 @@ Same goes for other images and videos.
 ## Screenshot
 
 <h1 align="center">
-  <a href=''><img src="http://rishigiri.com/github/instashot.png" alt="Instavim" width="600"></a>
+  <a href=''>
+  <img src="http://rishigiri.com/github/instashot.png" alt="Instavim" width="600">
+  </a>
 </h1>
 
 ## Related
 
-Image-of    [ CLI TOOL ](https://github.com/CodeDotJS/image-of)
+- [image-of](https://github.com/CodeDotJS/image-of) : Download profile picture of any facebook user.
 
-Gravatar-of [ CLI TOOL ](https://github.com/CodeDotJS/gravatar-of)
+- [gravatar-of](https://github.com/CodeDotJS/gravatar-of) : Download avatar of gravatar users through their email id.
+
+- [twiger](https://github.com/CodeDotJS/twiger) : A complete media downloader for twitter.
 
 ## License
 
