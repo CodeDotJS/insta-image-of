@@ -2,21 +2,22 @@
 
 'use strict';
 
-const mkdirp = require('mkdirp');
-const https = require('follow-redirects').https;
-const boxen = require('boxen');
 const fs = require('fs');
+const https = require('follow-redirects').https;
 const colors = require('colors/safe');
+const mkdirp = require('mkdirp');
+
+const arrow = colors.cyan.bold(' ❱ ');
 
 const argv = require('yargs')
-	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]           '))
-	.command('u', colors.cyan.bold(' ❱ ') + ' instagram username ➨➤ High Resolution   ')
-	.command('m', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Medium Resolution ')
-	.command('w', colors.cyan.bold(' ❱ ') + ' insatgram username ➨➤ Low Resolution    ')
-	.command('l', colors.cyan.bold(' ❱ ') + ' full link to download image             ')
-	.command('v', colors.cyan.bold(' ❱ ') + ' full link to download video             ')
+	.usage(colors.cyan.bold('\nUsage : $0 <command> [info] <option> [info]'))
+	.command('u', `${arrow}instagram username ➨➤ High Resolution   `)
+	.command('m', `${arrow}insatgram username ➨➤ Medium Resolution `)
+	.command('w', `${arrow}insatgram username ➨➤ Low Resolution    `)
+	.command('l', `${arrow}full link to download image             `)
+	.command('v', `${arrow}full link to download video             `)
 	.demand(['n'])
-	.describe('n', colors.cyan.bold('❱') + '  save image or video as                  ')
+	.describe('n', `${arrow} save image or video as                `)
 	.example('$0 -u [user-name] -n [image-name]')
 	.example('$0 -l [imageLink] -n [image-name]')
 	.example('$0 -v [videoLink] -n [video-name]')
@@ -26,10 +27,18 @@ const updateNotifier = require('update-notifier');
 const pkg = require('./package.json');
 updateNotifier({pkg}).notify();
 
+const pathHighProfile = argv.u;
+const pathMediumProfile = argv.m;
+const pathLowProfile = argv.w;
+
+const addZeroPath = `/${pathHighProfile}`;
+const addFirstPath = `/${pathMediumProfile}`;
+const addSecPath = `/${pathLowProfile}`;
+
 const options = {
 	hostname: 'www.instagram.com',
 	port: 443,
-	path: '/' + argv.u,
+	path: addZeroPath,
 	method: 'GET',
 	headers: {
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -43,7 +52,7 @@ const options = {
 const optionsMedium = {
 	hostname: 'www.instagram.com',
 	port: 443,
-	path: '/' + argv.m,
+	path: addFirstPath,
 	method: 'GET',
 	headers: {
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -57,7 +66,7 @@ const optionsMedium = {
 const optionsSmall = {
 	hostname: 'www.instagram.com',
 	port: 443,
-	path: '/' + argv.w,
+	path: addSecPath,
 	method: 'GET',
 	headers: {
 		'accept': 'text/html,application/json,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -191,6 +200,13 @@ checkInternet(isConnected => {
 	}
 });
 
+const profArgs = argv.n;
+const extensionProfArg = `${profArgs}.jpg`;
+const extensionVideoArg = `${profArgs}.mp4`;
+const folderOpt = colors.green.bold(savedIn);
+const mediaName = colors.green.bold(`${profArgs}.jpg`);
+const instaVideoName = colors.green.bold(`${profArgs}.mp4`);
+
 if (argv.u) {
 	const req = https.request(options, res => {
 		if (res.statusCode === 200) {
@@ -200,7 +216,7 @@ if (argv.u) {
 				mkdirp(removeSlash, err => {
 					if (err) {
 						// optional
-						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+						console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
 					} else {
 						/* do nothing */
 					}
@@ -245,11 +261,11 @@ if (argv.u) {
 				const remChars = redefineLink(imageLink).replace('profile_pic_url": "', '');
 
 				// saving image
-				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
+				const imageFile = fs.createWriteStream(removeSlash + extensionProfArg);
 				// downloading image
 				https.get(remChars, res => {
 					res.pipe(imageFile);
-					console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+					console.log(colors.cyan.bold(` ❱ Image Saved In        :    ${folderOpt} ${arrow} ${mediaName}\n`));
 				}).on('error', err => {
 					console.log(err);
 					console.log('❱ Failed to Save the image');
@@ -269,7 +285,7 @@ if (argv.m) {
 			setTimeout(() => {
 				mkdirp(removeSlash, err => {
 					if (err) {
-						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+						console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
 					} else {
 						// do nothing
 					}
@@ -304,11 +320,10 @@ if (argv.m) {
 				}
 
 				const remChars = redefineLink(imageLink).replace('profile_pic_url_hd": "', '');
-				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
-
+				const imageFile = fs.createWriteStream(removeSlash + extensionProfArg);
 				https.get(remChars, res => {
 					res.pipe(imageFile);
-					console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+					console.log(colors.cyan.bold(` ❱ Image Saved In        :    ${folderOpt} ${arrow} ${mediaName}\n`));
 				}).on('error', err => {
 					console.log(err);
 					console.log('❱ Failed to Save the image');
@@ -330,7 +345,7 @@ if (argv.w) {
 			setTimeout(() => {
 				mkdirp(removeSlash, err => {
 					if (err) {
-						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+						console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
 					} else {
 						// do nothing
 					}
@@ -366,11 +381,11 @@ if (argv.w) {
 				}
 
 				const remChars = parsedSmallImages(imageLink).replace('profile_pic_url": "', '');
-				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
+				const imageFile = fs.createWriteStream(removeSlash + extensionProfArg);
 
 				https.get(remChars, res => {
 					res.pipe(imageFile);
-					console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+					console.log(colors.cyan.bold(` ❱ Image Saved In        :    ${folderOpt} ${arrow} ${mediaName}\n`));
 				}).on('error', err => {
 					console.log(err);
 					console.log('❱ Failed to Save the image');
@@ -401,7 +416,7 @@ if (argv.l) {
 				mkdirp(removeSlash, err => {
 					if (err) {
 						// optional
-						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+						console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
 					} else {
 					/* do nothing */
 					}
@@ -427,11 +442,11 @@ if (argv.l) {
 			if (regMatches && regMatches[0]) {
 				const imageLink = regMatches[0].replace('display_src":"', '');
 				const remChars = redefineLink(imageLink).replace('display_src": "', '');
-				const imageFile = fs.createWriteStream(removeSlash + argv.n + '.jpg');
+				const imageFile = fs.createWriteStream(removeSlash + extensionProfArg);
 
 				https.get(remChars, res => {
 					res.pipe(imageFile);
-					console.log(colors.cyan.bold(' ❱ Image Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.jpg\n'));
+					console.log(colors.cyan.bold(` ❱ Image Saved In        :    ${folderOpt} ${arrow} ${mediaName}\n`));
 				}).on('error', err => {
 					console.log(err);
 					console.log('\n ❱ Failed to Save the image');
@@ -460,7 +475,7 @@ if (argv.v) {
 				mkdirp(removeSlash, err => {
 					if (err) {
 						// optional
-						console.log(colors.red.bold(boxen('Sorry! Couldn\'t create the desired directory')));
+						console.log(colors.red.bold('\n ❱ Directory Created      :    ✖\n'));
 					} else {
 						/* do nothing */
 					}
@@ -484,10 +499,10 @@ if (argv.v) {
 			if (regMatches && regMatches[0]) {
 				const imageLink = regMatches[0].replace('video_url":"', '');
 				const remChars = redefineLink(imageLink).replace('video_url": "', '');
-				const videoFile = fs.createWriteStream(removeSlash + argv.n + '.mp4');
+				const videoFile = fs.createWriteStream(removeSlash + extensionVideoArg);
 				https.get(remChars, res => {
 					res.pipe(videoFile);
-					console.log(colors.cyan.bold('\n ❱ Video Saved In        : '), ' ', colors.green.bold(savedIn), colors.cyan.bold('❱'), colors.green.bold(argv.n + '.mp4\n'));
+					console.log(colors.cyan.bold(`\n ❱ Video Saved In        :    ${folderOpt} ${arrow} ${instaVideoName}\n`));
 				}).on('error', err => {
 					console.log(err);
 					console.log('\n ❱ Failed to Save the video');
