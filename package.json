@@ -45,7 +45,6 @@
     "full-resolution"
   ],
   "dependencies": {
-    "fs": "*",
     "https": "*",
     "url": "*",
     "follow-redirects": "*",
