@@ -45,7 +45,7 @@
     "full-resolution"
   ],
   "dependencies": {
-    "is-url": "1.1.2",
+    "is-url": "1.2.2 ",
     "fs-extra": "1.0.0",
     "got": "6.6.3",
     "ora": "0.4.0",
