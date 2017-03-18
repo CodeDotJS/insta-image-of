@@ -17,20 +17,18 @@ const pkg = require('./package.json');
 
 updateNotifier({pkg}).notify();
 
+const spinner = ora();
 const arg = process.argv[2];
 const user = process.argv[3];
-
 const pre = chalk.cyan.bold('›');
 const pos = chalk.red.bold('›');
 const dir = `${os.homedir()}/Instagram/`;
-
 const url = `https://instagram.com/${user}/?__a=1`;
+const fileName = Math.random().toString(20).substr(2, 8);
 
 const dim = foll => {
 	return chalk.dim(foll);
 };
-
-const spinner = ora();
 
 const checkConnection = () => {
 	dns.lookup('instagram.com', err => {
@@ -50,13 +48,11 @@ const noUserArg = () => {
 		logUpdate(`\n${pos} ${dim('<username/link> required\n')}`);
 		process.exit(1);
 	}
-	return;
 };
 
 const returnBase = () => {
 	noUserArg();
 	checkConnection();
-	return;
 };
 
 const errorMessage = () => {
@@ -68,7 +64,6 @@ const errorMessage = () => {
 const downloadMessage = () => {
 	logUpdate();
 	spinner.text = `Downloading Media`;
-	return;
 };
 
 const privateError = () => {
@@ -111,14 +106,12 @@ logUpdate();
 spinner.text = `Please Wait!`;
 spinner.start();
 
-const fileName = Math.random().toString(20).substr(2, 8);
-
-const downloadMedia = arg => {
-	const saveImages = fs.createWriteStream(`${dir}${fileName}.jpg`);
+const downloadMedia = (arg, ext, message) => {
+	const saveImages = fs.createWriteStream(`${dir}${fileName}.${ext}`);
 	https.get(arg, (res, cb) => {
 		res.pipe(saveImages);
 		saveImages.on('finish', () => {
-			logUpdate(`\n${pre} Image Saved! \n`);
+			logUpdate(`\n${pre} ${message} Saved! ${chalk.dim(`[${fileName}.${ext}]`)} \n`);
 			saveImages.close(cb);
 			spinner.stop();
 			saveImages.on('error', () => {
@@ -134,7 +127,6 @@ const checkURL = link => {
 		logUpdate(`\n${pos} ${dim('Please enter a valid url!')}\n`);
 		process.exit(1);
 	}
-	return;
 };
 
 const removeCaption = link => {
@@ -146,7 +138,7 @@ if (arg === '-s' || arg === '--small') {
 	got(url, {json: true}).then(res => {
 		downloadMessage();
 		const link = res.body.user.profile_pic_url;
-		downloadMedia(link);
+		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
 			errorMessage();
@@ -157,7 +149,7 @@ if (arg === '-s' || arg === '--small') {
 	got(url, {json: true}).then(res => {
 		downloadMessage();
 		const link = res.body.user.profile_pic_url.replace(/150x150/g, '320x320');
-		downloadMedia(link);
+		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
 			errorMessage();
@@ -168,7 +160,7 @@ if (arg === '-s' || arg === '--small') {
 	got(url, {json: true}).then(res => {
 		downloadMessage();
 		const link = res.body.user.profile_pic_url.replace(/150x150/g, '');
-		downloadMedia(link);
+		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
 			errorMessage();
@@ -181,7 +173,7 @@ if (arg === '-s' || arg === '--small') {
 	got(`${rawFile}?__a=1`, {json: true}).then(res => {
 		downloadMessage();
 		const link = res.body.media.display_src;
-		downloadMedia(link);
+		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
 			privateError();
@@ -193,19 +185,7 @@ if (arg === '-s' || arg === '--small') {
 	got(`${removeCaption(user)}?__a=1`, {json: true}).then(res => {
 		downloadMessage();
 		const link = res.body.media.video_url;
-		const save = fs.createWriteStream(`${dir}${fileName}.mp4`);
-		https.get(link, (res, cb) => {
-			downloadMessage();
-			res.pipe(save);
-			save.on('finish', () => {
-				logUpdate(`\n${pre} Video saved! \n`);
-				save.close(cb);
-				spinner.stop();
-				save.on('error', () => {
-					process.exit(1);
-				});
-			});
-		});
+		downloadMedia(link, 'mp4', 'Video');
 	}).catch(err => {
 		if (err) {
 			privateError();
