@@ -172,7 +172,7 @@ if (arg === '-s' || arg === '--small') {
 	const rawFile = removeCaption(user);
 	got(`${rawFile}?__a=1`, {json: true}).then(res => {
 		downloadMessage();
-		const link = res.body.media.display_src;
+		const link = res.body.graphql.shortcode_media.display_url;
 		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
@@ -184,7 +184,7 @@ if (arg === '-s' || arg === '--small') {
 	checkURL(user);
 	got(`${removeCaption(user)}?__a=1`, {json: true}).then(res => {
 		downloadMessage();
-		const link = res.body.media.video_url;
+		const link = res.body.graphql.shortcode_media.video_url;
 		downloadMedia(link, 'mp4', 'Video');
 	}).catch(err => {
 		if (err) {
