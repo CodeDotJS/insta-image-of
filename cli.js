@@ -40,7 +40,6 @@ const checkConnection = () => {
 		spinner.text = `Checking`;
 		spinner.start();
 	});
-	return;
 };
 
 const noUserArg = () => {
@@ -119,7 +118,6 @@ const downloadMedia = (arg, ext, message) => {
 			});
 		});
 	});
-	return;
 };
 
 const checkURL = link => {
