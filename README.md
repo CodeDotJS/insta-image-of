@@ -4,7 +4,7 @@
   <br>
   <br>
   <img src="https://travis-ci.org/CodeDotJS/instavim.svg?branch=master">
-  <img src="https://raw.githubusercontent.com/rishigiridotcom/rishigiri.com/gh-pages/github/xo.svg">
+  <img src="https://img.shields.io/badge/code_style-XO-5ed9c7.svg">
 </p>
 
 <p align="center"><b>Download profile pictures, public images and videos available on instagram directly from command line.</b></p>
