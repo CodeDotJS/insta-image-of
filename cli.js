@@ -24,7 +24,6 @@ const pre = chalk.cyan.bold('›');
 const pos = chalk.red.bold('›');
 const dir = `${os.homedir()}/Instagram/`;
 const url = `https://instagram.com/${user}/?__a=1`;
-const cdn = 'https://scontent-lga3-1.cdninstagram.com/';
 const fileName = Math.random().toString(20).substr(2, 8);
 
 const dim = foll => {
@@ -132,10 +131,6 @@ const removeCaption = link => {
 	return link.split('?')[0];
 };
 
-const replaceCDN = link => {
-	return `${cdn}${link.split('/vp/')[1].replace('/s320x320/', '/s1080x1080/')}`;
-};
-
 if (arg === '-s' || arg === '--small') {
 	returnBase();
 	got(url, {json: true}).then(res => {
@@ -162,8 +157,12 @@ if (arg === '-s' || arg === '--small') {
 	returnBase();
 	got(url, {json: true}).then(res => {
 		downloadMessage();
-		const link = replaceCDN(res.body.graphql.user.profile_pic_url_hd);
-		downloadMedia(link, 'jpg', 'Image');
+		const user = res.body.graphql.user.id;
+		const fetchProfile = `https://i.instagram.com/api/v1/users/${user}/info/`;
+		got(fetchProfile, {json: true}).then(res => {
+			const link = res.body.user.hd_profile_pic_url_info.url;
+			downloadMedia(link, 'jpg', 'Image');
+		});
 	}).catch(err => {
 		if (err) {
 			errorMessage();
