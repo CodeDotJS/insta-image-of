@@ -23,6 +23,17 @@ test.cb('medium', t => {
 	});
 });
 
+test.cb('regular', t => {
+	const cp = childProcess.spawn('./cli.js', ['-r', 'iama_rishi'], {stdio: 'inherit'});
+
+	cp.on('error', t.ifError);
+
+	cp.on('close', code => {
+		t.is(code, 0);
+		t.end();
+	});
+});
+
 test.cb('large', t => {
 	const cp = childProcess.spawn('./cli.js', ['-f', '9gag'], {stdio: 'inherit'});
 
