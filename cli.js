@@ -181,7 +181,7 @@ if (arg === '-s' || arg === '--small') {
 			downloadMedia(link, 'jpg', 'Image');
 		}).catch(err => {
 			if (err) {
-				logUpdate(`\n${pos} ${dim('The requested size is currently not available!')} \n`)
+				logUpdate(`\n${pos} ${dim('The requested size is currently not available!')} \n`);
 				end(1);
 			}
 		});
