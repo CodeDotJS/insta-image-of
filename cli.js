@@ -24,7 +24,7 @@ const user = process.argv[3];
 const pre = chalk.cyan.bold('›');
 const pos = chalk.red.bold('›');
 const dir = `${os.homedir()}/Instagram/`;
-const url = `https://instagram.com/${user}/?__a=1`;
+const url = `https://instagram.com/${user}/`;
 const fileName = Math.random().toString(20).substr(2, 8);
 
 const dim = foll => {
@@ -135,9 +135,9 @@ const removeCaption = link => {
 
 if (arg === '-s' || arg === '--small') {
 	returnBase();
-	got(url, {json: true}).then(res => {
+	got(url).then(res => {
 		downloadMessage();
-		const link = res.body.graphql.user.profile_pic_url;
+		const link = res.body.split('"profile_pic_url":"')[1].split('",')[0];
 		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
@@ -146,9 +146,9 @@ if (arg === '-s' || arg === '--small') {
 	});
 } else if (arg === '-m' || arg === '--medium') {
 	returnBase();
-	got(url, {json: true}).then(res => {
+	got(url).then(res => {
 		downloadMessage();
-		const link = res.body.graphql.user.profile_pic_url_hd;
+		const link = res.body.split(',"profile_pic_url_hd":"')[1].split('",')[0];
 		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
@@ -157,9 +157,9 @@ if (arg === '-s' || arg === '--small') {
 	});
 } else if (arg === '-f' || arg === '--full') {
 	returnBase();
-	got(url, {json: true}).then(res => {
+	got(url).then(res => {
 		downloadMessage();
-		const user = res.body.graphql.user.id;
+		const user = res.body.split(',"id":"')[1].split('",')[0];
 		const fetchProfile = `https://i.instagram.com/api/v1/users/${user}/info/`;
 		got(fetchProfile, {json: true}).then(res => {
 			const link = res.body.user.hd_profile_pic_url_info.url;
@@ -167,13 +167,13 @@ if (arg === '-s' || arg === '--small') {
 		});
 	}).catch(err => {
 		if (err) {
-			errorMessage();
+			console.log(err);
 		}
 	});
 } else if (arg === '-r' || arg === '--regular') {
 	returnBase();
-	got(url, {json: true}).then(res => {
-		const user = res.body.graphql.user.id;
+	got(url).then(res => {
+		const user = res.body.split(',"id":"')[1].split('",')[0];
 		const userProfile = `https://i.instagram.com/api/v1/users/${user}/info/`;
 		got(userProfile, {json: true}).then(res => {
 			downloadMessage();
@@ -190,9 +190,9 @@ if (arg === '-s' || arg === '--small') {
 	returnBase();
 	checkURL(user);
 	const rawFile = removeCaption(user);
-	got(`${rawFile}?__a=1`, {json: true}).then(res => {
+	got(rawFile).then(res => {
 		downloadMessage();
-		const link = res.body.graphql.shortcode_media.display_url;
+		const link = res.body.split('<meta property="og:image" content="')[1].split('"')[0];
 		downloadMedia(link, 'jpg', 'Image');
 	}).catch(err => {
 		if (err) {
@@ -202,9 +202,9 @@ if (arg === '-s' || arg === '--small') {
 } else if (arg === '-v' || arg === '--video') {
 	returnBase();
 	checkURL(user);
-	got(`${removeCaption(user)}?__a=1`, {json: true}).then(res => {
+	got(removeCaption(user)).then(res => {
 		downloadMessage();
-		const link = res.body.graphql.shortcode_media.video_url;
+		const link = res.body.split('<meta property="og:video" content="')[1].split('"')[0];
 		downloadMedia(link, 'mp4', 'Video');
 	}).catch(err => {
 		if (err) {
