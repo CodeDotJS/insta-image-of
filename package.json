@@ -5,9 +5,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codedotjs/instavim.git"
+    "url": "git+https://github.com/CodeDotJS/instavim.git"
   },
-  "author": "Rishi Giri <rushforlinux@gmail.com> (rishigiri.com)",
+  "author": "Rishi Giri <rushforlinux@gmail.com> (rishigiri.ml)",
   "bin": {
     "instavim": "cli.js"
   },
@@ -63,8 +63,8 @@
     "esnext": true
   },
   "bugs": {
-    "url": "https://github.com/codedotjs/instavim/issues"
+    "url": "https://github.com/CodeDotJS/instavim/issues"
   },
-  "homepage": "https://github.com/codedotjs/instavim#readme",
+  "homepage": "https://github.com/CodeDotJS/instavim#readme",
   "main": "cli.js"
 }
