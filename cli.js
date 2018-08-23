@@ -7,7 +7,7 @@ const dns = require('dns');
 const fs = require('fs');
 const isURL = require('is-url');
 const fse = require('fs-extra');
-const https = require('follow-redirects').https;
+const https = require('follow-redirects').https; // eslint-disable-line prefer-destructuring
 const got = require('got');
 const ora = require('ora');
 const chalk = require('chalk');
@@ -167,7 +167,7 @@ if (arg === '-s' || arg === '--small') {
 		});
 	}).catch(err => {
 		if (err) {
-			console.log(err);
+			errorMessage();
 		}
 	});
 } else if (arg === '-r' || arg === '--regular') {
