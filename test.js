@@ -66,3 +66,14 @@ test.cb('video', t => {
 		t.end();
 	});
 });
+
+test.cb('all', t => {
+	const cp = childProcess.spawn('./cli.js', ['-a', 'https://www.instagram.com/p/BoLZlVSFmR1/?taken-by=9gag'], {stdio: 'inherit'});
+
+	cp.on('error', t.ifError);
+
+	cp.on('close', code => {
+		t.is(code, 0);
+		t.end();
+	});
+});
