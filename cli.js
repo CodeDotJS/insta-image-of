@@ -137,8 +137,8 @@ const resolutionSmall = () => {
 		downloadMessage();
 		const link = res.body.split('"profile_pic_url":"')[1].split('",')[0];
 		downloadMedia(link, 'jpg', 'Image');
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			errorMessage();
 		}
 	});
@@ -150,8 +150,8 @@ const resolutionMedium = () => {
 		downloadMessage();
 		const link = res.body.split(',"profile_pic_url_hd":"')[1].split('",')[0];
 		downloadMedia(link, 'jpg', 'Image');
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			errorMessage();
 		}
 	});
@@ -166,8 +166,8 @@ const resolutionRegular = () => {
 			downloadMessage();
 			const link = res.body.user.hd_profile_pic_versions[1].url;
 			downloadMedia(link, 'jpg', 'Image');
-		}).catch(err => {
-			if (err) {
+		}).catch(error => {
+			if (error) {
 				logUpdate(`\n${pos} ${dim('The requested size is currently not available!')} \n`);
 				end(1);
 			}
@@ -185,8 +185,8 @@ const resolutionFull = () => {
 			const link = res.body.user.hd_profile_pic_url_info.url;
 			downloadMedia(link, 'jpg', 'Image');
 		});
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			errorMessage();
 		}
 	});
@@ -211,8 +211,8 @@ const grabAllContent = () => {
 			logUpdate(`\n${chalk.cyan.bold('✓')} Download Complete! \n\n${chalk.cyan.bold('✓')} ${content.length} files saved in ${chalk.blue(dir)} \n`);
 			spinner.stop();
 		});
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			privateError();
 		}
 	});
@@ -225,8 +225,8 @@ const imageViaLink = () => {
 		downloadMessage();
 		const link = res.body.split('<meta property="og:image" content="')[1].split('"')[0];
 		downloadMedia(link, 'jpg', 'Image');
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			privateError();
 		}
 	});
@@ -239,8 +239,8 @@ const videoViaLink = () => {
 		downloadMessage();
 		const link = res.body.split('<meta property="og:video" content="')[1].split('"')[0];
 		downloadMedia(link, 'mp4', 'Video');
-	}).catch(err => {
-		if (err) {
+	}).catch(error => {
+		if (error) {
 			privateError();
 		}
 	});
