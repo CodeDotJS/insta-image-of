@@ -9,6 +9,7 @@ const isURL = require('is-url');
 const fse = require('fs-extra');
 const https = require('follow-redirects').https; // eslint-disable-line prefer-destructuring
 const got = require('got');
+const download = require('download');
 const ora = require('ora');
 const chalk = require('chalk');
 const logUpdate = require('log-update');
@@ -38,7 +39,7 @@ const checkConnection = () => {
 			end(1);
 		}
 		logUpdate();
-		spinner.text = `Checking`;
+		spinner.text = 'Checking';
 		spinner.start();
 	});
 };
@@ -63,12 +64,19 @@ const errorMessage = () => {
 
 const downloadMessage = () => {
 	logUpdate();
-	spinner.text = `Downloading Media`;
+	spinner.text = 'Downloading Media';
 };
 
 const privateError = () => {
 	logUpdate(`\n${pos} Maybe \n\n${pre} ${dim('Broken link')} or\n${pre} ${dim('Media shared by private profile')}\n`);
 	end(1);
+};
+
+const checkURL = link => {
+	if (isURL(link) === false) {
+		logUpdate(`\n${pos} ${dim('Please enter a valid url!')}\n`);
+		end(1);
+	}
 };
 
 fse.ensureDir(dir, err => {
@@ -77,34 +85,31 @@ fse.ensureDir(dir, err => {
 	}
 });
 
-const argArray = ['-s', '--small', '-m', '--medium', '-f', '--full', '-r', '--regular', '-l', '--link', '-v', '--video'];
+const argArray = ['-s', '--small', '-m', '--medium', '-f', '--full', '-r', '--regular', '-a', '--all', '-l', '--link', '-v', '--video'];
 
 if (!arg || arg === '-h' || arg === '--help' || argArray.indexOf(arg) === -1) {
 	console.log(`
- ${chalk.cyan('Usage')}	  : instavim [command] <username/link>
+ ${chalk.cyan('Usage')} : instavim ${chalk.cyan('[command]')} ${chalk.white('<username/link>')}
 
- ${chalk.cyan('Command')}  :       ${dim('<for profile picture>')}
-  -s, ${dim('--small')}     downlaod profile picture in small resolution   - ${dim('150  pixels')}
-  -m, ${dim('--medium')}    download profile picutre in medium resolution  - ${dim('320  pixels')}
-  -r, ${dim('--regular')}   download profile picture in regular resolution - ${dim('640  pixels')}
-  -f, ${dim('--full')}      download profile picture in full resolution    - ${dim('1080 pixels')}
+ ${chalk.cyan('Command')} :
+  -s, ${dim('--small')}     downlaod profile picture of resolution ${chalk.yellow('150px')}
+  -m, ${dim('--medium')}    download profile picutre of resolution ${chalk.yellow('320px')}
+  -r, ${dim('--regular')}   download profile picture of resolution ${chalk.yellow('640px')}
+  -f, ${dim('--full')}      download profile picture of resolution ${chalk.yellow('1080px')}
 
- ${dim('Note : It works for the accounts which are both, public and private')}
-
- ${chalk.cyan('Command')}  :       ${dim('<download via links>')}
+ ${chalk.cyan('Command')} :
+  -a, ${dim('--all')}       download all images/videos from a link
   -l, ${dim('--link')}      download image via link
   -v, ${dim('--video')}     download video via link
 
- ${chalk.cyan('Example')}  :       instavim -f 9gag
-                  instavim -l <link>
-
- ${dim('Note : Works only if the link is associated with public media')}
+ ${chalk.cyan('Example')} : instavim -f 9gag
+           instavim -l <link>
   `);
 	end(1);
 }
 
 logUpdate();
-spinner.text = `Please Wait!`;
+spinner.text = 'Please Wait!';
 spinner.start();
 
 const downloadMedia = (arg, ext, message) => {
@@ -122,18 +127,11 @@ const downloadMedia = (arg, ext, message) => {
 	});
 };
 
-const checkURL = link => {
-	if (isURL(link) === false) {
-		logUpdate(`\n${pos} ${dim('Please enter a valid url!')}\n`);
-		end(1);
-	}
-};
-
 const removeCaption = link => {
 	return link.split('?')[0];
 };
 
-if (arg === '-s' || arg === '--small') {
+const resolutionSmall = () => {
 	returnBase();
 	got(url).then(res => {
 		downloadMessage();
@@ -144,7 +142,9 @@ if (arg === '-s' || arg === '--small') {
 			errorMessage();
 		}
 	});
-} else if (arg === '-m' || arg === '--medium') {
+};
+
+const resolutionMedium = () => {
 	returnBase();
 	got(url).then(res => {
 		downloadMessage();
@@ -155,22 +155,9 @@ if (arg === '-s' || arg === '--small') {
 			errorMessage();
 		}
 	});
-} else if (arg === '-f' || arg === '--full') {
-	returnBase();
-	got(url).then(res => {
-		downloadMessage();
-		const user = res.body.split(',"id":"')[1].split('",')[0];
-		const fetchProfile = `https://i.instagram.com/api/v1/users/${user}/info/`;
-		got(fetchProfile, {json: true}).then(res => {
-			const link = res.body.user.hd_profile_pic_url_info.url;
-			downloadMedia(link, 'jpg', 'Image');
-		});
-	}).catch(err => {
-		if (err) {
-			errorMessage();
-		}
-	});
-} else if (arg === '-r' || arg === '--regular') {
+};
+
+const resolutionRegular = () => {
 	returnBase();
 	got(url).then(res => {
 		const user = res.body.split(',"id":"')[1].split('",')[0];
@@ -186,11 +173,55 @@ if (arg === '-s' || arg === '--small') {
 			}
 		});
 	});
-} else if (arg === '-l' || arg === '--link') {
+};
+
+const resolutionFull = () => {
+	returnBase();
+	got(url).then(res => {
+		downloadMessage();
+		const user = res.body.split(',"id":"')[1].split('",')[0];
+		const fetchProfile = `https://i.instagram.com/api/v1/users/${user}/info/`;
+		got(fetchProfile, {json: true}).then(res => {
+			const link = res.body.user.hd_profile_pic_url_info.url;
+			downloadMedia(link, 'jpg', 'Image');
+		});
+	}).catch(err => {
+		if (err) {
+			errorMessage();
+		}
+	});
+};
+
+const grabAllContent = () => {
 	returnBase();
 	checkURL(user);
-	const rawFile = removeCaption(user);
-	got(rawFile).then(res => {
+	const grab = user.split('?')[0] + '?__a=1';
+	got(grab, {json: true}).then(res => {
+		const base = res.body.graphql.shortcode_media.edge_sidecar_to_children.edges;
+		const keeper = {meta: []};
+		for (let i = 0; i < base.length; i++) {
+			const video = base[i].node.video_url;
+			const image = base[i].node.display_resources[2].src;
+			video === undefined ? keeper.meta.push(image) : keeper.meta.push(video); // eslint-disable-line no-unused-expressions
+		}
+		const content = keeper.meta;
+		logUpdate();
+		spinner.text = 'Downloading files...';
+		Promise.all(content.map(x => download(x, dir))).then(() => {
+			logUpdate(`\n${chalk.cyan.bold('✓')} Download Complete! \n\n${chalk.cyan.bold('✓')} ${content.length} files saved in ${chalk.blue(dir)} \n`);
+			spinner.stop();
+		});
+	}).catch(err => {
+		if (err) {
+			privateError();
+		}
+	});
+};
+
+const imageViaLink = () => {
+	returnBase();
+	checkURL(user);
+	got(removeCaption(user)).then(res => {
 		downloadMessage();
 		const link = res.body.split('<meta property="og:image" content="')[1].split('"')[0];
 		downloadMedia(link, 'jpg', 'Image');
@@ -199,7 +230,9 @@ if (arg === '-s' || arg === '--small') {
 			privateError();
 		}
 	});
-} else if (arg === '-v' || arg === '--video') {
+};
+
+const videoViaLink = () => {
 	returnBase();
 	checkURL(user);
 	got(removeCaption(user)).then(res => {
@@ -211,4 +244,20 @@ if (arg === '-s' || arg === '--small') {
 			privateError();
 		}
 	});
+};
+
+if (arg === '-s' || arg === '--small') {
+	resolutionSmall();
+} else if (arg === '-m' || arg === '--medium') {
+	resolutionMedium();
+} else if (arg === '-r' || arg === '--regular') {
+	resolutionRegular();
+} else if (arg === '-f' || arg === '--full') {
+	resolutionFull();
+} else if (arg === '-a' || arg === '--all') {
+	grabAllContent();
+} else if (arg === '-l' || arg === '--link') {
+	imageViaLink();
+} else if (arg === '-v' || arg === '--video') {
+	videoViaLink();
 }
