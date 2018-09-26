@@ -4,7 +4,6 @@
 	<br>
 	<br>
 	<img src="https://travis-ci.org/CodeDotJS/instavim.svg?branch=master">
-	<img src="https://raw.githubusercontent.com/rishigiridotcom/rishigiri.com/gh-pages/github/instavim.png" width="50px;">
 	<img src="https://img.shields.io/badge/code_style-XO-5ed9c7.svg">
 </p>
 
@@ -21,21 +20,20 @@ __`OR`__
 $ sudo npm install --global instavim
 ```
 
----
-__`NOTE`__
-
-This tool works completely fine and does everything which is mentioned in the readme, but Instagram is making continuous changes and constantly reducing the ways to retrive data.
-I've fixed this tool many times in a single week and to be honest, it's kinda irritating for me to make changes on a daily basis. Feel free to file an [issue](https://github.com/CodeDotJS/instavim/issues/new) or send [Pull requests](https://github.com/CodeDotJS/instavim/pulls) in case further changes
-happens in future.
-
-Thank You!
-
----
 ## Preview
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/rishigiridotcom/rishigiri.com/gh-pages/github/instavim-1.gif">
 </p>
+
+## Features
+
+- Complete media downloader for Instagram.
+- Download profile pictures in four different resolutions.
+- Download images from the link.
+- Download videos from the link.
+- Download all the content from a post which has images and videos.
+- Ultra fast and easy to use!
 
 ## Usage
 
@@ -51,40 +49,32 @@ __`Resolutions Available`__
 |  `Full`          | `1080x1080 px`  |
 
 ```
- Usage	  : instavim [command] <username/link>
+ Usage : instavim [command] <username/link>
 
- Command  :       <for profile picture>
- -s, --small     downlaod profile picture in small resolution
- -m, --medium    download profile picutre in medium resolution
- -r, --regular   download profile picutre in regular resolution
- -f, --full      download profile picture in full resolution
+ Command :
+  -s, --small     downlaod profile picture of resolution 150px
+  -m, --medium    download profile picutre of resolution 320px
+  -r, --regular   download profile picture of resolution 640px
+  -f, --full      download profile picture of resolution 1080px
 
- Note : It works for the accounts which are both, public and private
+ Command :
+  -a, --all       download all images/videos from a link
+  -l, --link      download image via link
+  -v, --video     download video via link
 
- Command  :       <download via links>
- -l, --link      download image via link
- -v, --video     download video via link
-
- Example  : instavim -f 9gag
-            instavim -l <link>
-
- Note : Works only if the link is associated with public media
+ Example : instavim -f 9gag
+           instavim -l <link>
 ```
 
 ## Related
-
+- __[`mista`](https://github.com/CodeDotJS/mista)__ `:` `Scrape all downloadable urls of the Instagram posts that has multiple images or videos!`
+- __[`migger`](https://github.com/CodeDotJS/migger)__ `:` `Download media from the URL that contains multiple images/videos on Instagram!`
 - __[`instagram-profile-picture`](https://github.com/CodeDotJS/instagram-profile-picture)__ `:` `Get url to the profile picture of any instagram user in different resolutions and more!`
-
 - __[`instagram-links`](https://github.com/CodeDotJS/Instagram-Links)__ `:` `Get links of the publicaly shared medias and profile picture available on Instagram!`
-
 - __[`instafy`](https://github.com/CodeDotJS/instafy)__ `:` `A command line Instagram media notifier!`
-
 - __[`istalk`](https://github.com/CodeDotJS/istalk)__ `:` `Don't pollute your browser history. Stalk Instagram users from the command line!`
-
 - __[`image-of`](https://github.com/CodeDotJS/image-of)__ `:` `Download profile picture of any facebook user!`
-
 - __[`gravatar-of`](https://github.com/CodeDotJS/gravatar-of)__ `:` `Download avatar of gravatar users through their email id!`
-
 - __[`twiger`](https://github.com/CodeDotJS/twiger)__ `:` `A complete media downloader for twitter!`
 
 ## License
